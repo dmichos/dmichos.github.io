@@ -5,6 +5,8 @@ body {
     padding: 0;
     position: relative;
     overflow: hidden;
+    background-color: #121212; /* Ensure dark background */
+    color: #ffffff; /* Ensure text color is white */
 }
 
 header {
@@ -86,6 +88,5 @@ footer.dark-mode {
     top: 0;
     left: 0;
     z-index: 1;
-    background-color: #000;
+    background-color: #000; /* Ensure background color is black */
 }
-//
