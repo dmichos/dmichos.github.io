@@ -6,7 +6,7 @@ document.getElementById('toggle-dark-mode').addEventListener('click', function()
     document.querySelector('header').classList.toggle('dark-mode');
     document.querySelector('footer').classList.toggle('dark-mode');
 });
-
+//
 particlesJS.load('particles-js', 'particles.json', function() {
     console.log('particles.js loaded - callback');
 });
