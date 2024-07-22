@@ -8,7 +8,6 @@ Welcome to the dmichos.github.io website! This site showcases my work as a secur
 - [Projects](#projects)
 - [Contact](#contact)
 - [Getting Started](#getting-started)
-- [Structure](#structure)
 
 
 ## About
