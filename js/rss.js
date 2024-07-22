@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const proxyUrl = 'https://api.allorigins.win/get?url=';
-    const rssFeedUrl = encodeURIComponent('https://api.msrc.microsoft.com/update-guide/rss');
+    const rssFeedUrl = encodeURIComponent('https://www.zerodayinitiative.com/rss/');
 
     fetch(proxyUrl + rssFeedUrl)
         .then(response => response.json())
