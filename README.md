@@ -9,8 +9,7 @@ Welcome to the dmichos.github.io website! This site showcases my work as a secur
 - [Contact](#contact)
 - [Getting Started](#getting-started)
 - [Structure](#structure)
-- [Contributing](#contributing)
-- [License](#license)
+
 
 ## About
 
