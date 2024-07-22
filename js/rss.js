@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
     const rssFeedUrl = 'https://api.msrc.microsoft.com/update-guide/rss';
     
-    fetch(rssFeedUrl)
+    fetch(proxyUrl + rssFeedUrl)
         .then(response => response.text())
         .then(str => new window.DOMParser().parseFromString(str, 'text/xml'))
         .then(data => {
