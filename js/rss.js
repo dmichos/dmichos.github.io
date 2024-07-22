@@ -1,12 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-    const rssFeedUrl = 'https://api.msrc.microsoft.com/update-guide/rss';
-    
+    const proxyUrl = 'https://api.allorigins.win/get?url=';
+    const rssFeedUrl = encodeURIComponent('https://api.msrc.microsoft.com/update-guide/rss');
+
     fetch(proxyUrl + rssFeedUrl)
-        .then(response => response.text())
-        .then(str => new window.DOMParser().parseFromString(str, 'text/xml'))
+        .then(response => response.json())
         .then(data => {
-            const items = data.querySelectorAll('item');
+            const parser = new window.DOMParser();
+            const xmlDoc = parser.parseFromString(data.contents, 'text/xml');
+            const items = xmlDoc.querySelectorAll('item');
             let html = '';
             items.forEach(el => {
                 const title = el.querySelector('title').textContent;
