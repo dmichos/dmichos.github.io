@@ -16,11 +16,19 @@
             margin: 0;
             padding: 0;
             overflow-x: hidden; /* Prevent horizontal scroll */
+            display: flex;
+            flex-direction: column;
         }
 
         body {
             overflow-y: auto; /* Allow vertical scroll */
             font-family: Arial, sans-serif;
+        }
+
+        /* Main content wrapper */
+        main {
+            flex: 1;
+            padding: 20px;
         }
 
         /* Title Block */
@@ -66,6 +74,13 @@
             z-index: -1; /* Keep particles in the background */
         }
 
+        /* Footer style */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
     </style>
 </head>
 <body class="dark-mode">
@@ -206,7 +221,7 @@ if __name__ == "__main__":
             </div>
         </div>
     </main>
-    <footer class="dark-mode">
+    <footer>
         <p>&copy; 2024 Security Researcher</p>
     </footer>
     <script src="../js/scripts.js"></script>
