@@ -18,7 +18,7 @@ This website serves as a portfolio for my work in cybersecurity. It includes det
 
 In the Projects section, you will find detailed descriptions of my latest work. Each project page includes objectives, methodologies, findings, and results. Here are a few projects featured on this site:
 
-- **[Project 1](pro/SqlProxyDecoder.html)** - A GET proxy for SQLMap and also decodes the base64  response.
+- **[SqlProxyDecoder](pro/SqlProxyDecoder.html)** - A GET proxy for SQLMap and also decodes the base64  response.
 - **Project 2** - Description of project 2.
 - **Project 3** - Description of project 3.
 
