@@ -6,6 +6,29 @@
     <title>Project 1</title>
     <link rel="stylesheet" href="../css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+    <style>
+        .code-wrapper {
+            background-color: #1e1e1e;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .code-wrapper h2 {
+            color: white;
+            margin-bottom: 10px;
+        }
+        .code-block {
+            background-color: #2e2e2e;
+            padding: 15px;
+            border-radius: 5px;
+            color: #f1f1f1;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            white-space: pre-wrap; /* To wrap long lines */
+            overflow-x: auto;
+        }
+    </style>
 </head>
 <body class="dark-mode">
     <div id="particles-js"></div>
@@ -25,10 +48,11 @@
             <p>A proxy for SQLMap and also decodes the response.</p>
             <p>Coming Soon!</p>
             
-            <!-- Code Block Section -->
-            <section class="code-block">
+            <!-- Code Block Section with separate wrapper -->
+            <div class="code-wrapper">
                 <h2>Sample Code</h2>
-                <pre><code>
+                <div class="code-block">
+                    <code>
 # Sample Python Code for SQLMap Proxy
 import requests
 
@@ -39,8 +63,9 @@ def sqlmap_proxy(url):
 
 url = 'http://example.com/vulnerable_page'
 print(sqlmap_proxy(url))
-                </code></pre>
-            </section>
+                    </code>
+                </div>
+            </div>
         </div>
     </main>
     <footer class="dark-mode">
