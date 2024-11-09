@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SqlMapDecodeProxy</title>
+    <title>Project 1</title>
     <link rel="stylesheet" href="../css/styles.css">
     <!-- Prism.js CSS for syntax highlighting -->
     <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-okaidia.min.css" rel="stylesheet"/>
@@ -61,30 +61,74 @@
     </header>
     <main>
         <div class="content-wrapper">
-            <!-- Title Block -->
+            <!-- Step 1 Block -->
             <div class="title-block">
                 <h1>SqlMapDecodeProxy</h1>
                 <p>A proxy for SQLMap and also decodes the response.</p>
                 <p>Coming Soon!</p>
             </div>
             
-            <!-- Code Block -->
+            <h2>Step 1: Create a Folder for SqlMapProxy</h2>
+            <p>First, create a dedicated folder where you will store the generated certificates and the proxy file for SqlMapProxy. This will help keep everything organized and easily accessible.</p>
+            
             <div class="code-block-wrapper">
-              <h2>Step 1: Create a Folder for SqlMapProxy</h2>
-<p>First, create a dedicated folder where you will store the generated certificates and the proxy file for SqlMapProxy. This will help keep everything organized and easily accessible.</p>
+                <h3>Create the Folder and Generate SSL Certificate</h3>
+                <p>In the folder you created, run the following commands to set up your directory and generate an SSL certificate:</p>
+                <div class="code-block">
+                    <pre><code class="language-bash">
+# Create a folder for SqlMapProxy and navigate to it
+mkdir sqlproxy
+cd sqlproxy 
 
-<div class="code-block">
-    <pre><code class="language-bash">
-        # Create a folder for SqlMapProxy and navigate to it
-            mkdir sqlproxy
-            cd sqlproxy 
+# Generate the SSL certificate
+openssl genpkey -algorithm RSA -out private_key.pem
+openssl req -new -key private_key.pem -out cert_request.csr
+openssl x509 -req -in cert_request.csr -signkey private_key.pem -out cert.pem -days 365
+                    </code></pre>
+                </div>
+            </div>
+            
+            <!-- Step 2 Block -->
+            <h2>Step 2: Set Up the Proxy Script</h2>
+            <p>Now, we need to create the proxy script that will intercept and decode the requests and responses. This script will work with SQLMap to perform SQL injection testing with an added layer of decoding.</p>
+            
+            <div class="code-block-wrapper">
+                <h3>Create the Proxy Script</h3>
+                <p>In the folder you created, create a new Python script called <code>proxy.py</code>. This script will handle the requests and responses that SQLMap sends.</p>
+                <div class="code-block">
+                    <pre><code class="language-python">
+# proxy.py
+import socket
+import ssl
+import requests
 
-            # Generate the SSL certificate
-            openssl genpkey -algorithm RSA -out private_key.pem
-            openssl req -new -key private_key.pem -out cert_request.csr
-            openssl x509 -req -in cert_request.csr -signkey private_key.pem -out cert.pem -days 365
-    </code></pre>
-               </div>
+# Create a proxy server
+def create_proxy_server():
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.bind(('0.0.0.0', 8080))
+    server.listen(5)
+    print("Listening for connections on port 8080...")
+    return server
+
+# Handle the incoming requests
+def handle_request(connection, address):
+    data = connection.recv(1024)
+    print(f"Received request from {address}: {data.decode()}")
+    response = process_request(data)  # Function to process the request and return a decoded response
+    connection.send(response)
+    connection.close()
+
+# Proxy setup
+def start_proxy():
+    server = create_proxy_server()
+    while True:
+        connection, address = server.accept()
+        handle_request(connection, address)
+
+if __name__ == "__main__":
+    start_proxy()
+                    </code></pre>
+                </div>
             </div>
         </div>
     </main>
