@@ -119,7 +119,7 @@
         <div class="content-wrapper">
             <div class="title-block">
                 <h1>SqlMapDecodeProxy</h1>
-                <p>A proxy for SQLMap and also decodes the response.</p>
+                <p>A proxy for SQLMap and also decodes the base64  response.</p>
                 <p>Coming Soon!</p>
             </div>
             
@@ -238,20 +238,21 @@ if __name__ == "__main__":
             <p>To start the proxy server, run the following command in the terminal:</p>
             <div class="code-viewer">
                 <pre><code class="language-bash">
-# Run the proxy server
-python3 proxy.py
+                # Run the proxy server
+            python3 proxy.py
+                 # Run Sqlmap    
+             sqlmap -u "http://localhost:1337/?id=1" --dbs --batch --random-agent --proxy="https://localhost:8080"   --force-ssl
                 </code></pre>
             </div>
 
             <p>The server will now listen on the specified port (default is 8080). You can configure SQLMap or any other tool to route traffic through this proxy for testing and decoding purposes.</p>
+            <p>Sqlmap will capture the decoded Based64 ! </p>
+
 
             <!-- Toggle Button -->
             <button class="toggle-btn" onclick="toggleCode()">Toggle Code Viewer</button>
         </div>
     </main>
-    <footer>
-        <p>&copy; 2024 Security Researcher</p>
-    </footer>
     <script>
         // Toggle code visibility
         function toggleCode() {
