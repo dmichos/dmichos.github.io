@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project 1</title>
     <link rel="stylesheet" href="../css/styles.css">
-    <!-- Prism.js CSS for syntax highlighting (removed as we no longer have code blocks) -->
     <style>
         /* Global Styles */
         html, body {
@@ -59,6 +58,10 @@
             background: none;  /* Removes any background color */
             margin-top: auto; /* Ensures footer stays at the bottom */
         }
+
+        .code-block-wrapper {
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body class="dark-mode">
@@ -87,17 +90,13 @@
             
             <h3>Create the Folder and Generate SSL Certificate</h3>
             <p>In the folder you created, run the following commands to set up your directory and generate an SSL certificate:</p>
-            <p><strong>Commands:</strong></p>
-            <p>
-                # Create a folder for SqlMapProxy and navigate to it<br>
-                mkdir sqlproxy<br>
-                cd sqlproxy<br><br>
-
-                # Generate the SSL certificate<br>
-                openssl genpkey -algorithm RSA -out private_key.pem<br>
-                openssl req -new -key private_key.pem -out cert_request.csr<br>
-                openssl x509 -req -in cert_request.csr -signkey private_key.pem -out cert.pem -days 365
-            </p>
+            
+            <!-- CodeBeautify iframe for displaying the source code -->
+            <div class="code-block-wrapper">
+                <iframe src="https://codebeautify.org/source-code-viewer" width="100%" height="400px" style="border:none;">
+                    Your browser does not support iframes.
+                </iframe>
+            </div>
 
             <!-- Step 2 Block -->
             <h2>Step 2: Set Up the Proxy Script</h2>
@@ -106,92 +105,13 @@
             <h3>Create the Proxy Script</h3>
             <p>In the folder you created, create a new Python script called <code>proxy.py</code>. This script will handle the requests and responses that SQLMap sends.</p>
 
-            <p>Python code:</p>
-            <pre>
-import base64
-import http.server
-import socketserver
-import ssl
-import requests
-from urllib.parse import urlparse
-import urllib3
+            <!-- Another iframe for proxy script code -->
+            <div class="code-block-wrapper">
+                <iframe src="https://codebeautify.org/source-code-viewer" width="100%" height="400px" style="border:none;">
+                    Your browser does not support iframes.
+                </iframe>
+            </div>
 
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-PORT = 8080 # you can change this port 
-CERT_FILE = "cert.pem"
-KEY_FILE = "private_key.pem"
-
-class ProxyHandler(http.server.BaseHTTPRequestHandler):
-    def do_REQUEST(self):
-        self.handle_request()
-
-    def do_GET(self):
-        self.handle_request()
-
-    def do_POST(self):
-        self.handle_request()
-
-    def handle_request(self):
-        request_headers = self.headers
-        request_method = self.command
-        request_path = self.path
-        content_length = int(request_headers.get('Content-Length', 0))
-        body = self.rfile.read(content_length) if content_length else b""
-
-        target_url = self.construct_target_url(request_headers)
-
-        try:
-            response = requests.request(
-                request_method,
-                target_url,
-                headers=dict(request_headers),
-                data=body,
-                allow_redirects=False,
-                verify=False
-            )
-
-            decoded_content = response.text
-            try:
-                if len(decoded_content) % 4 == 0 and all(c in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=" for c in decoded_content.strip()):
-                    decoded_content = base64.b64decode(decoded_content).decode('utf-8')
-            except Exception as e:
-                pass
-
-            self.send_response(response.status_code)
-            for key, value in response.headers.items():
-                self.send_header(key, value)
-            self.end_headers()
-            self.wfile.write(decoded_content.encode())
-
-        except requests.exceptions.SSLError as ssl_error:
-            self.send_response(500)
-            self.end_headers()
-            self.wfile.write(b"SSL Error")
-
-    def construct_target_url(self, headers):
-        host = headers.get('Host')
-        if not host:
-            raise ValueError("Host header is missing in the request.")
-        
-        scheme = "https"
-        
-        target_url = f"{scheme}://{host}{self.path}"
-        return target_url
-
-def run_proxy():
-    with socketserver.TCPServer(("", PORT), ProxyHandler) as httpd:
-        context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-        context.load_cert_chain(certfile=CERT_FILE, keyfile=KEY_FILE)
-        
-        httpd.socket = context.wrap_socket(httpd.socket, server_side=True)
-        
-        httpd.serve_forever()
-
-if __name__ == "__main__":
-    run_proxy()
-            </pre>
-        
             <!-- Step 3 Block -->
             <h2>Step 3: Start the Proxy Server</h2>
             <p>Once the folder and proxy script are set up, you can now start the proxy server. This server will listen for incoming requests, forward them to the target URL, and then return the decoded response.</p>
