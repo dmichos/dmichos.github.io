@@ -7,26 +7,40 @@
     <link rel="stylesheet" href="../css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
     <style>
-        .code-wrapper {
-            background-color: #1e1e1e;
-            padding: 20px;
-            margin: 30px 0;
+        /* Title Block */
+        .title-block {
+            background-color: #333;
+            color: white;
+            padding: 40px;
+            margin-bottom: 30px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        .code-wrapper h2 {
+
+        /* Code Block */
+        .code-block-wrapper {
+            background-color: #222;
             color: white;
-            margin-bottom: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
+
         .code-block {
-            background-color: #2e2e2e;
+            background-color: #1e1e1e;
             padding: 15px;
             border-radius: 5px;
             color: #f1f1f1;
             font-family: 'Courier New', Courier, monospace;
             font-size: 16px;
-            white-space: pre-wrap; /* To wrap long lines */
+            white-space: pre-wrap;
             overflow-x: auto;
+        }
+
+        /* Heading style */
+        .content-wrapper h1 {
+            margin-bottom: 15px;
         }
     </style>
 </head>
@@ -44,12 +58,15 @@
     </header>
     <main>
         <div class="content-wrapper">
-            <h1>SqlMapDecodeProxy</h1>
-            <p>A proxy for SQLMap and also decodes the response.</p>
-            <p>Coming Soon!</p>
+            <!-- Title Block -->
+            <div class="title-block">
+                <h1>SqlMapDecodeProxy</h1>
+                <p>A proxy for SQLMap and also decodes the response.</p>
+                <p>Coming Soon!</p>
+            </div>
             
-            <!-- Code Block Section with separate wrapper -->
-            <div class="code-wrapper">
+            <!-- Code Block -->
+            <div class="code-block-wrapper">
                 <h2>Sample Code</h2>
                 <div class="code-block">
                     <code>
