@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project 1</title>
     <link rel="stylesheet" href="../css/styles.css">
-    <!-- Prism.js CSS for syntax highlighting -->
-    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-okaidia.min.css" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <!-- Prism.js CSS for syntax highlighting (removed as we no longer have code blocks) -->
     <style>
         /* Global Styles */
         html, body {
@@ -39,27 +36,6 @@
             margin-bottom: 30px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Code Block */
-        .code-block-wrapper {
-            background-color: #222;
-            color: white;
-            padding: 20px;
-            margin-top: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .code-block {
-            background-color: #1e1e1e;
-            padding: 15px;
-            border-radius: 5px;
-            color: #f1f1f1;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 16px;
-            white-space: pre-wrap;
-            overflow-x: auto;
         }
 
         /* Heading style */
@@ -109,32 +85,29 @@
             <h2>Step 1: Create a Folder for SqlMapProxy</h2>
             <p>First, create a dedicated folder where you will store the generated certificates and the proxy file for SqlMapProxy. This will help keep everything organized and easily accessible.</p>
             
-            <div class="code-block-wrapper">
-                <h3>Create the Folder and Generate SSL Certificate</h3>
-                <p>In the folder you created, run the following commands to set up your directory and generate an SSL certificate:</p>
-                <div class="code-block">
-                    <pre><code class="language-bash">
-# Create a folder for SqlMapProxy and navigate to it
-mkdir sqlproxy
-cd sqlproxy 
+            <h3>Create the Folder and Generate SSL Certificate</h3>
+            <p>In the folder you created, run the following commands to set up your directory and generate an SSL certificate:</p>
+            <p><strong>Commands:</strong></p>
+            <p>
+                # Create a folder for SqlMapProxy and navigate to it<br>
+                mkdir sqlproxy<br>
+                cd sqlproxy<br><br>
 
-# Generate the SSL certificate
-openssl genpkey -algorithm RSA -out private_key.pem
-openssl req -new -key private_key.pem -out cert_request.csr
-openssl x509 -req -in cert_request.csr -signkey private_key.pem -out cert.pem -days 365
-                    </code></pre>
-                </div>
-            </div>
-            
+                # Generate the SSL certificate<br>
+                openssl genpkey -algorithm RSA -out private_key.pem<br>
+                openssl req -new -key private_key.pem -out cert_request.csr<br>
+                openssl x509 -req -in cert_request.csr -signkey private_key.pem -out cert.pem -days 365
+            </p>
+
             <!-- Step 2 Block -->
             <h2>Step 2: Set Up the Proxy Script</h2>
             <p>Now, we need to create the proxy script that will intercept and decode the requests and responses. This script will work with SQLMap to perform SQL injection testing with an added layer of decoding.</p>
             
-            <div class="code-block-wrapper">
-                <h3>Create the Proxy Script</h3>
-                <p>In the folder you created, create a new Python script called <code>proxy.py</code>. This script will handle the requests and responses that SQLMap sends.</p>
-                <div class="code-block">
-                    <pre><code class="language-python">
+            <h3>Create the Proxy Script</h3>
+            <p>In the folder you created, create a new Python script called <code>proxy.py</code>. This script will handle the requests and responses that SQLMap sends.</p>
+
+            <p>Python code:</p>
+            <pre>
 import base64
 import http.server
 import socketserver
@@ -217,26 +190,18 @@ def run_proxy():
 
 if __name__ == "__main__":
     run_proxy()
-
-                    </code></pre>
-                </div>
-            </div>
-
+            </pre>
+        
             <!-- Step 3 Block -->
             <h2>Step 3: Start the Proxy Server</h2>
             <p>Once the folder and proxy script are set up, you can now start the proxy server. This server will listen for incoming requests, forward them to the target URL, and then return the decoded response.</p>
 
-            <div class="code-block-wrapper">
-                <h3>Start the Proxy Server</h3>
-                <p>To start the proxy server, run the following command in the terminal:</p>
-                <div class="code-block">
-                    <pre><code class="language-bash">
+            <h3>Start the Proxy Server</h3>
+            <p>To start the proxy server, run the following command in the terminal:</p>
+            <pre><code class="language-bash">
 # Run the proxy server
 python3 proxy.py
-                    </code></pre>
-                </div>
-            </div>
-
+            </code></pre>
             <p>The server will now listen on the specified port (default is 8080). You can configure SQLMap or any other tool to route traffic through this proxy for testing and decoding purposes.</p>
         </div>
     </main>
