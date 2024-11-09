@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project 1</title>
+    <title>SqlMapDecodeProxy</title>
     <link rel="stylesheet" href="../css/styles.css">
     <!-- Prism.js CSS for syntax highlighting -->
     <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-okaidia.min.css" rel="stylesheet"/>
@@ -70,21 +70,21 @@
             
             <!-- Code Block -->
             <div class="code-block-wrapper">
-                <h2>Sample Code</h2>
-                <div class="code-block">
-                    <pre><code class="language-python">
-# Sample Python Code for SQLMap Proxy
-import requests
+              <h2>Step 1: Create a Folder for SqlMapProxy</h2>
+<p>First, create a dedicated folder where you will store the generated certificates and the proxy file for SqlMapProxy. This will help keep everything organized and easily accessible.</p>
 
-def sqlmap_proxy(url):
-    response = requests.get(url)
-    decoded_response = response.text  # Decoding logic can be added here
-    return decoded_response
+<div class="code-block">
+    <pre><code class="language-bash">
+        # Create a folder for SqlMapProxy and navigate to it
+            mkdir sqlproxy
+            cd sqlproxy 
 
-url = 'http://example.com/vulnerable_page'
-print(sqlmap_proxy(url))
-                    </code></pre>
-                </div>
+            # Generate the SSL certificate
+            openssl genpkey -algorithm RSA -out private_key.pem
+            openssl req -new -key private_key.pem -out cert_request.csr
+            openssl x509 -req -in cert_request.csr -signkey private_key.pem -out cert.pem -days 365
+    </code></pre>
+               </div>
             </div>
         </div>
     </main>
