@@ -221,6 +221,23 @@ if __name__ == "__main__":
                     </code></pre>
                 </div>
             </div>
+
+            <!-- Step 3 Block -->
+            <h2>Step 3: Start the Proxy Server</h2>
+            <p>Once the folder and proxy script are set up, you can now start the proxy server. This server will listen for incoming requests, forward them to the target URL, and then return the decoded response.</p>
+
+            <div class="code-block-wrapper">
+                <h3>Start the Proxy Server</h3>
+                <p>To start the proxy server, run the following command in the terminal:</p>
+                <div class="code-block">
+                    <pre><code class="language-bash">
+# Run the proxy server
+python3 proxy.py
+                    </code></pre>
+                </div>
+            </div>
+
+            <p>The server will now listen on the specified port (default is 8080). You can configure SQLMap or any other tool to route traffic through this proxy for testing and decoding purposes.</p>
         </div>
     </main>
     <footer>
