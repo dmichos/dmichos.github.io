@@ -1,4 +1,4 @@
-# dmichos Portfolio // Cybersecurity Researcher
+# dmichos  // Cybersecurity Researcher
 
 Welcome to my digital armory. This repository hosts my professional portfolio, featuring interactive security tools, a simulated cyber academy, and a showcase of my work in vulnerability research and penetration testing.
 
