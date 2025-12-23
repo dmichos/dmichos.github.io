@@ -1,38 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects</title>
+    <title>Toolshed | dmichos</title>
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
 </head>
-<body class="dark-mode">
+
+<body>
     <div id="particles-js"></div>
-    <header class="dark-mode">
+    <header>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="projects.html">Projects</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="index.html">/home</a></li>
+                <li><a href="about.html">/profile</a></li>
+                <li><a href="projects.html" class="active">/toolshed</a></li>
+                <li><a href="academy.html">/academy</a></li>
+                <li><a href="contact.html">/connect</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <div class="content-wrapper">
-            <h1>My Projects</h1>
-            <p>Here are some of my latest projects in cybersecurity:</p>
-            <ul>
-                <li><a href="pro/SqlProxyDecoder.html">SqlMapDecodeProxy </a> -  A proxy for SQLMap and also decodes the response. </li>
-                <li><a href="#">Project 2</a> - Description of project 2.</li>
-                <li><a href="#">Project 3</a> - Description of project 3.</li>
-            </ul>
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+                <span style="font-size: 0.7rem; color: #555; margin-left: 10px;">dmichos@CyberSec:~/toolshed</span>
+            </div>
+            <h1>[ ARMORY / TOOLSHED ]</h1>
+
+            <div class="projects-grid">
+
+                <div class="project-card">
+                    <h3>Reverse Shell Generator</h3>
+                    <p>Interactive tool to generate one-liners for various OS and shells. Input IP/Port to get instant
+                        payloads.</p>
+                    <div style="margin-top: 1rem;">
+                        <span class="tag">Interactive</span>
+                        <span class="tag">Post-Exploitation</span>
+                        <span class="tag">Payloads</span>
+                    </div>
+                    <a href="pro/reverse-shell.html"
+                        style="display: inline-block; margin-top: 1rem; color: var(--accent-secondary); text-decoration: none;">[
+                        LAUNCH_TOOL ]</a>
+                </div>
+
+                <div class="project-card">
+                    <h3>JWT Local Inspector</h3>
+                    <p>A privacy-focused debugger for JSON Web Tokens. Decodes header and payload entirely in the
+                        browser.
+                    </p>
+                    <div style="margin-top: 1rem;">
+                        <span class="tag">Security</span>
+                        <span class="tag">Authentication</span>
+                        <span class="tag">JWT</span>
+                    </div>
+                    <a href="pro/jwt-inspector.html"
+                        style="display: inline-block; margin-top: 1rem; color: var(--accent-secondary); text-decoration: none;">[
+                        INSPECT_TOKEN ]</a>
+                </div>
+
+                <div class="project-card">
+                    <h3>Hash Identifier & Gen</h3>
+                    <p>Identify hash types using regex patterns and generate SHA-256 or SHA-1 hashes locally using Web
+                        Crypto API.</p>
+                    <div style="margin-top: 1rem;">
+                        <span class="tag">Cryptography</span>
+                        <span class="tag">Analysis</span>
+                        <span class="tag">WebCrypto</span>
+                    </div>
+                    <a href="pro/hash-tool.html"
+                        style="display: inline-block; margin-top: 1rem; color: var(--accent-secondary); text-decoration: none;">[
+                        HASH_TOOLS ]</a>
+                </div>
+
+                <div class="project-card">
+                    <h3>Security Header Analyst</h3>
+                    <p>Analyze HTTP response headers for missing security guards like CSP, HSTS, and X-Frame-Options.
+                    </p>
+                    <div style="margin-top: 1rem;">
+                        <span class="tag">Web Security</span>
+                        <span class="tag">Recon</span>
+                        <span class="tag">Hardening</span>
+                    </div>
+                    <a href="pro/header-analyst.html"
+                        style="display: inline-block; margin-top: 1rem; color: var(--accent-secondary); text-decoration: none;">[
+                        ANALYZE_HEADERS ]</a>
+                </div>
+                <div class="project-card">
+                    <h3>Exploit Pattern Gen</h3>
+                    <p>Generate unique De Bruijn sequences for Buffer Overflows and find offsets from memory values.</p>
+                    <div style="margin-top: 1rem;">
+                        <span class="tag">Exploit Dev</span>
+                        <span class="tag">Binary</span>
+                        <span class="tag">Low-Level</span>
+                    </div>
+                    <a href="pro/exploit-pattern.html"
+                        style="display: inline-block; margin-top: 1rem; color: var(--accent-secondary); text-decoration: none;">[
+                        FIND_OFFSETS ]</a>
+                </div>
+
+                <div class="project-card">
+                    <h3>XSS Weaponizer</h3>
+                    <p>A collection of elite XSS polyglots and an obfuscator to bypass WAFs and security filters.</p>
+                    <div style="margin-top: 1rem;">
+                        <span class="tag">Web Security</span>
+                        <span class="tag">Weaponization</span>
+                        <span class="tag">XSS</span>
+                    </div>
+                    <a href="pro/xss-weaponizer.html"
+                        style="display: inline-block; margin-top: 1rem; color: var(--accent-secondary); text-decoration: none;">[
+                        GENERATE_PAYLOADS ]</a>
+                </div>
+            </div>
         </div>
     </main>
-    <footer class="dark-mode">
-        <p>&copy; 2024 Security Researcher</p>
+    <footer>
+        <p>&copy; 2024 DMICHOS // [SECURED_CONNECTION]</p>
     </footer>
     <script src="js/scripts.js"></script>
 </body>
+
 </html>
