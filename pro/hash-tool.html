@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hash Tool | dmichos</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+    <style>
+        .tool-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .section-box {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 5px;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            margin-top: 0;
+            border-bottom: 1px solid #333;
+            padding-bottom: 0.5rem;
+        }
+
+        textarea,
+        input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #444;
+            color: white;
+            padding: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 1rem;
+            outline: none;
+        }
+
+        textarea:focus,
+        input:focus {
+            border-color: var(--accent-primary);
+        }
+
+        .result-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .result-item {
+            margin-bottom: 0.8rem;
+            font-size: 0.85rem;
+            border-left: 2px solid var(--accent-secondary);
+            padding-left: 10px;
+        }
+
+        .result-item span {
+            color: var(--accent-secondary);
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .tool-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="particles-js"></div>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="../index.html">/home</a></li>
+                <li><a href="../about.html">/profile</a></li>
+                <li><a href="../projects.html">/toolshed</a></li>
+                <li><a href="../academy.html">/academy</a></li>
+                <li><a href="../contact.html">/connect</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+                <span style="font-size: 0.7rem; color: #555; margin-left: 10px;">dmichos@CyberSec:~/toolshed/hash</span>
+            </div>
+            <h1>[ HASH_IDENTIFIER_&_GENERATOR ]</h1>
+
+            <div class="tool-grid">
+                <!-- Identifier Section -->
+                <div class="section-box">
+                    <h2>Identifier</h2>
+                    <input type="text" id="hash-to-id" placeholder="Paste hash here (e.g. 5e543256c480ac577d30...)">
+                    <div id="id-results" class="result-list">
+                        <p style="color: var(--text-dim); font-size: 0.8rem;">Ready for analysis...</p>
+                    </div>
+                </div>
+
+                <!-- Generator Section -->
+                <div class="section-box">
+                    <h2>Generator</h2>
+                    <textarea id="text-to-hash" placeholder="Enter text to hash..." rows="3"></textarea>
+                    <div id="gen-results" class="result-list">
+                        <!-- Hash results here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const hashPatterns = [
+            { name: "MD5", regex: /^[a-f0-9]{32}$/i },
+            { name: "SHA-1", regex: /^[a-f0-9]{40}$/i },
+            { name: "SHA-256", regex: /^[a-f0-9]{64}$/i },
+            { name: "SHA-512", regex: /^[a-f0-9]{128}$/i },
+            { name: "Bcrypt (Blowfish)", regex: /^\$2[ayb]\$.{56}$/i },
+            { name: "NTLM", regex: /^[a-f0-9]{32}$/i, note: "Commonly matches MD5 format" }
+        ];
+
+        // Identification Logic
+        document.getElementById('hash-to-id').oninput = function (e) {
+            const hash = e.target.value.trim();
+            const resultsEl = document.getElementById('id-results');
+            if (!hash) {
+                resultsEl.innerHTML = '<p style="color: var(--text-dim); font-size: 0.8rem;">Ready for analysis...</p>';
+                return;
+            }
+
+            const matches = hashPatterns.filter(p => p.regex.test(hash));
+            if (matches.length > 0) {
+                resultsEl.innerHTML = matches.map(m => `
+                    <div class="result-item">
+                        <span>Pattern Match</span>
+                        <strong>${m.name}</strong> ${m.note ? `<br><i>${m.note}</i>` : ''}
+                    </div>
+                `).join('');
+            } else {
+                resultsEl.innerHTML = '<div class="result-item" style="border-color: #ff5f56;">No common patterns matched</div>';
+            }
+        };
+
+        // Generation Logic
+        async function updateHashes() {
+            const text = document.getElementById('text-to-hash').value;
+            const genResults = document.getElementById('gen-results');
+            if (!text) {
+                genResults.innerHTML = '';
+                return;
+            }
+
+            const encoder = new TextEncoder();
+            const data = encoder.encode(text);
+
+            const hashBuffer256 = await crypto.subtle.digest('SHA-256', data);
+            const hashArray256 = Array.from(new Uint8Array(hashBuffer256));
+            const hashHex256 = hashArray256.map(b => b.toString(16).padStart(2, '0')).join('');
+
+            const hashBuffer1 = await crypto.subtle.digest('SHA-1', data);
+            const hashArray1 = Array.from(new Uint8Array(hashBuffer1));
+            const hashHex1 = hashArray1.map(b => b.toString(16).padStart(2, '0')).join('');
+
+            genResults.innerHTML = `
+                <div class="result-item"><span>SHA-256</span><code>${hashHex256}</code></div>
+                <div class="result-item"><span>SHA-1</span><code>${hashHex1}</code></div>
+            `;
+        }
+
+        document.getElementById('text-to-hash').oninput = updateHashes;
+    </script>
+    <script src="../js/scripts.js"></script>
+</body>
+
+</html>

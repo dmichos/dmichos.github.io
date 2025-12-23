@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header Analyst | dmichos</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+    <style>
+        .tool-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        textarea {
+            width: 100%;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--accent-primary);
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            outline: none;
+            resize: none;
+        }
+
+        .analysis-results {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .header-status {
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 4px solid #333;
+        }
+
+        .header-status.present {
+            border-color: var(--accent-primary);
+        }
+
+        .header-status.missing {
+            border-color: #ff5f56;
+        }
+
+        .header-status h4 {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .header-status p {
+            margin: 0.3rem 0 0 0;
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .header-status .value {
+            color: #ccc;
+            font-family: monospace;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            display: block;
+        }
+
+        @media (max-width: 900px) {
+            .tool-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="particles-js"></div>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="../index.html">/home</a></li>
+                <li><a href="../about.html">/profile</a></li>
+                <li><a href="../projects.html">/toolshed</a></li>
+                <li><a href="../academy.html">/academy</a></li>
+                <li><a href="../contact.html">/connect</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+                <span
+                    style="font-size: 0.7rem; color: #555; margin-left: 10px;">dmichos@CyberSec:~/toolshed/headers</span>
+            </div>
+            <h1>[ SECURITY_HEADER_ANALYST ]</h1>
+            <p style="color: var(--text-dim); font-size: 0.8rem; margin-bottom: 2rem;">Paste raw HTTP response headers
+                to analyze security posture.</p>
+
+            <div class="tool-layout">
+                <div class="input-pane">
+                    <textarea id="header-input" placeholder="HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Security-Policy: default-src 'self'
+..."></textarea>
+                    <p style="font-size: 0.7rem; color: #555; margin-top: 1rem;">Tip: Use Browser DevTools -> Network ->
+                        Click Request -> Headers -> Response Headers (Raw)</p>
+                </div>
+                <div class="analysis-results" id="results">
+                    <!-- Results populated here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const securityHeaders = [
+            { name: "Content-Security-Policy", desc: "Prevents XSS and injection attacks by controlling resources." },
+            { name: "Strict-Transport-Security", desc: "Forces HTTPS connections (HSTS)." },
+            { name: "X-Frame-Options", desc: "Prevents Clickjacking by controlling framing." },
+            { name: "X-Content-Type-Options", desc: "Prevents MIME-type sniffing (nosniff)." },
+            { name: "Referrer-Policy", desc: "Controls how much referrer info is shared." },
+            { name: "Permissions-Policy", desc: "Restricts browser features like camera/mic." }
+        ];
+
+        const input = document.getElementById('header-input');
+        const resultsEl = document.getElementById('results');
+
+        function analyze() {
+            const raw = input.value;
+            resultsEl.innerHTML = '';
+
+            securityHeaders.forEach(h => {
+                const regex = new RegExp(`^${h.name}:\\s*(.*)$`, 'im');
+                const match = raw.match(regex);
+                const isPresent = !!match;
+
+                const div = document.createElement('div');
+                div.className = `header-status ${isPresent ? 'present' : 'missing'}`;
+                div.innerHTML = `
+                    <h4>${h.name} [${isPresent ? 'OK' : 'MISSING'}]</h4>
+                    <p>${h.desc}</p>
+                    ${isPresent ? `<span class="value">${match[1]}</span>` : ''}
+                `;
+                resultsEl.appendChild(div);
+            });
+        }
+
+        input.oninput = analyze;
+        analyze(); // Initial empty state
+    </script>
+    <script src="../js/scripts.js"></script>
+</body>
+
+</html>

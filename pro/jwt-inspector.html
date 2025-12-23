@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT Inspector | dmichos</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+    <style>
+        .tool-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .input-area textarea {
+            width: 100%;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--accent-primary);
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            outline: none;
+            resize: none;
+        }
+
+        .result-area {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .json-block {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #333;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        .json-block h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--accent-secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .json-block pre {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #ccc;
+        }
+
+        .error-msg {
+            color: #ff5f56;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        @media (max-width: 900px) {
+            .tool-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="particles-js"></div>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="../index.html">/home</a></li>
+                <li><a href="../about.html">/profile</a></li>
+                <li><a href="../projects.html">/toolshed</a></li>
+                <li><a href="../academy.html">/academy</a></li>
+                <li><a href="../contact.html">/connect</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+                <span style="font-size: 0.7rem; color: #555; margin-left: 10px;">dmichos@CyberSec:~/toolshed/jwt</span>
+            </div>
+            <h1>[ JWT_INSPECTOR ]</h1>
+            <p style="color: var(--text-dim); font-size: 0.8rem; margin-bottom: 2rem;">Offline decoding. No tokens are
+                sent to any server.</p>
+
+            <div class="tool-container">
+                <div class="input-area">
+                    <textarea id="jwt-input" placeholder="Paste your JWT here..."></textarea>
+                    <div id="error-display" class="error-msg">Invalid JWT Structure</div>
+                </div>
+                <div class="result-area">
+                    <div class="json-block">
+                        <h4>Header</h4>
+                        <pre id="jwt-header">{}</pre>
+                    </div>
+                    <div class="json-block">
+                        <h4>Payload</h4>
+                        <pre id="jwt-payload">{}</pre>
+                    </div>
+                    <div class="json-block">
+                        <h4>Signature Status</h4>
+                        <pre id="jwt-sig"
+                            style="color: var(--text-dim);">Signature detected but not validated (Local only)</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const jwtInput = document.getElementById('jwt-input');
+        const headerEl = document.getElementById('jwt-header');
+        const payloadEl = document.getElementById('jwt-payload');
+        const errorEl = document.getElementById('error-display');
+
+        function base64UrlDecode(str) {
+            try {
+                // Add padding if needed
+                str = str.replace(/-/g, '+').replace(/_/g, '/');
+                while (str.length % 4) { str += '='; }
+                return decodeURIComponent(atob(str).split('').map(function (c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function handleInput() {
+            const token = jwtInput.value.trim();
+            if (!token) {
+                headerEl.innerText = '{}';
+                payloadEl.innerText = '{}';
+                errorEl.style.display = 'none';
+                return;
+            }
+
+            const parts = token.split('.');
+            if (parts.length < 2) {
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            const header = base64UrlDecode(parts[0]);
+            const payload = base64UrlDecode(parts[1]);
+
+            if (header && payload) {
+                try {
+                    headerEl.innerText = JSON.stringify(JSON.parse(header), null, 4);
+                    payloadEl.innerText = JSON.stringify(JSON.parse(payload), null, 4);
+                    errorEl.style.display = 'none';
+                } catch (e) {
+                    errorEl.style.display = 'block';
+                }
+            } else {
+                errorEl.style.display = 'block';
+            }
+        }
+
+        jwtInput.oninput = handleInput;
+    </script>
+    <script src="../js/scripts.js"></script>
+</body>
+
+</html>

