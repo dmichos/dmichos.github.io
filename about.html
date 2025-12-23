@@ -40,13 +40,37 @@
 
             <section class="project-card">
                 <h3>Core Skills</h3>
-                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1rem;">
-                    <span class="tag">Pentesting</span>
-                    <span class="tag">Red Teaming</span>
-                    <span class="tag">Malware Analysis</span>
-                    <span class="tag">Network Security</span>
-                    <span class="tag">Incident Response</span>
-                    <span class="tag">OSINT</span>
+                <div class="skill-matrix">
+                    <div class="skill-item">
+                        <div class="skill-info"><span>Web Exploitation</span><span>95%</span></div>
+                        <div class="skill-bar-bg">
+                            <div class="skill-bar-fill" style="width: 95%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info"><span>Network Security</span><span>90%</span></div>
+                        <div class="skill-bar-bg">
+                            <div class="skill-bar-fill" style="width: 90%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info"><span>Reverse Engineering</span><span>85%</span></div>
+                        <div class="skill-bar-bg">
+                            <div class="skill-bar-fill" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info"><span>OSINT & Recon</span><span>92%</span></div>
+                        <div class="skill-bar-bg">
+                            <div class="skill-bar-fill" style="width: 92%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info"><span>Malware Analysis</span><span>80%</span></div>
+                        <div class="skill-bar-bg">
+                            <div class="skill-bar-fill" style="width: 80%;"></div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -62,6 +86,19 @@
         <p>&copy; 2024 DMICHOS // [SECURED_CONNECTION]</p>
     </footer>
     <script src="js/scripts.js"></script>
+    <script>
+        // Trigger skill bar animations on load
+        window.addEventListener('load', () => {
+            const bars = document.querySelectorAll('.skill-bar-fill');
+            bars.forEach(bar => {
+                const targetWidth = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = targetWidth;
+                }, 100);
+            });
+        });
+    </script>
 </body>
 
 </html>
