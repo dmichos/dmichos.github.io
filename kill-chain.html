@@ -4,15 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kill Chain Canvas | Cyber Strategy</title>
+    <title>Pentest Notebook | Methodology Guide</title>
     <link rel="stylesheet" href="../css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
     <style>
         /* Tool-Specific Styles */
         .canvas-container {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 10px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
             margin-top: 2rem;
             overflow-x: auto;
             min-height: 60vh;
@@ -26,19 +26,20 @@
             padding: 10px;
             display: flex;
             flex-direction: column;
-            min-width: 180px;
+            min-width: 220px;
             transition: all 0.3s ease;
         }
 
         .phase-header {
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--accent-secondary);
             margin-bottom: 1rem;
             text-transform: uppercase;
             font-weight: bold;
             border-bottom: 1px solid #333;
-            padding-bottom: 5px;
+            padding-bottom: 8px;
+            letter-spacing: 1px;
         }
 
         .tactic-card {
@@ -127,73 +128,69 @@
                 <div class="dot red"></div>
                 <div class="dot yellow"></div>
                 <div class="dot green"></div>
-                <span style="font-size: 0.7rem; color: #555; margin-left: 10px;">./kill_chain_planner.exe</span>
+                <span style="font-size: 0.7rem; color: #555; margin-left: 10px;">./pentest_log.sh</span>
             </div>
 
             <div class="terminal-body">
-                <h1 style="color: var(--accent-primary); margin-bottom: 0.5rem;">> KILL CHAIN STRATEGY CANVAS</h1>
+                <h1 style="color: var(--accent-primary); margin-bottom: 0.5rem;">> PENTEST NOTEBOOK</h1>
                 <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 2rem;">
-                    [INFO] Map adversary tactics across the 7 phases of the Cyber Kill Chain. Build your campaign
-                    strategy.
+                    [INFO] Structured workflow methodology. Drag cards to phases to log findings and generate the final
+                    report.
                 </p>
 
                 <!-- Toolkit -->
                 <div class="toolbox-area" id="toolbox" ondrop="drop(event)" ondragover="allowDrop(event)">
-                    <div class="toolbox-label">> TACTICAL ASSETS (Drag to Phases)</div>
+                    <div class="toolbox-label">> METHODOLOGY TOOLKIT (Drag to Log Finding)</div>
                     <!-- Draggable Items -->
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card1">🔍 OSINT Scan</div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card2">📧 Phishing Email
-                    </div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card3">☣️ Weaponized PDF
-                    </div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card4">🐛 Zero-Day Exploit
-                    </div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card5">📥 Reverse Shell
-                    </div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card6">🔄 Persistence
-                        (RegKey)</div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card7">📡 C2 Beacon</div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card8">💾 Data Exfiltration
-                    </div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card9">🔐 Ransomware Payload
-                    </div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card10">🛠️ Mimikatz (Creds)
-                    </div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card11">🌐 SQL Injection
-                    </div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card12">🔑 Brute Force</div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_scope"
+                        data-prompt="Enter Target URL/IP Scope:">🎯 Target Scope</div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_recon"
+                        data-prompt="Passive Recon Findings (Whois/ASN):">🔍 Passive Recon</div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_dns"
+                        data-prompt="Subdomains Found:">🌐 Subdomain Enum</div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_nmap"
+                        data-prompt="Open Ports & Services:">📡 Nmap Service Scan</div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_dir"
+                        data-prompt="Paste Fuzzing Results (Gobuster/Dirb):">📂 Web Directory Fuzz</div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_vuln"
+                        data-prompt="Describe Vulnerability/CVE:">🐛 CVE / Misconfig</div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_expl"
+                        data-prompt="Exploit Used/Payload:">💥 Exploit Attempt</div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_shell"
+                        data-prompt="Shell Type & Access Level:">🐚 Reverse Shell / Access</div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_priv"
+                        data-prompt="PrivEsc Vector (LinPEAS/WinPEAS):">⬆️ Privilege Escalation</div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_loot"
+                        data-prompt="Loot Found (Hashes/Keys):">� Loot / Credentials</div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_note"
+                        data-prompt="Field Note:">📝 Custom Note</div>
                 </div>
 
                 <!-- Main Canvas -->
                 <div class="canvas-container">
-                    <div class="kill-chain-phase" id="recon" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        <div class="phase-header">1. Reconnaissance</div>
+                    <div class="kill-chain-phase" id="phase1_scope" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="phase-header">1. Scope & Recon</div>
                     </div>
-                    <div class="kill-chain-phase" id="weaponization" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        <div class="phase-header">2. Weaponization</div>
+                    <div class="kill-chain-phase" id="phase2_enum" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="phase-header">2. Enumeration</div>
                     </div>
-                    <div class="kill-chain-phase" id="delivery" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        <div class="phase-header">3. Delivery</div>
+                    <div class="kill-chain-phase" id="phase3_vuln" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="phase-header">3. Vuln Analysis</div>
                     </div>
-                    <div class="kill-chain-phase" id="exploitation" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <div class="kill-chain-phase" id="phase4_exploit" ondrop="drop(event)"
+                        ondragover="allowDrop(event)">
                         <div class="phase-header">4. Exploitation</div>
                     </div>
-                    <div class="kill-chain-phase" id="installation" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        <div class="phase-header">5. Installation</div>
-                    </div>
-                    <div class="kill-chain-phase" id="c2" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        <div class="phase-header">6. Cmd & Control</div>
-                    </div>
-                    <div class="kill-chain-phase" id="actions" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        <div class="phase-header">7. Actions</div>
+                    <div class="kill-chain-phase" id="phase5_post" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="phase-header">5. Post-Exploitation</div>
                     </div>
                 </div>
 
                 <!-- Controls -->
                 <div style="margin-top: 20px; text-align: right;">
-                    <button class="nav-button" onclick="resetBoard()">[ RESET BOARD ]</button>
+                    <button class="nav-button" onclick="location.reload()">[ RESET LOG ]</button>
                     <button class="nav-button" onclick="generateReport()"
-                        style="border-color: #00ff41; color: #00ff41;">[ GENERATE CAMPAIGN REPORT ]</button>
+                        style="border-color: #00ff41; color: #00ff41;">[ GENERATE ENGAGEMENT REPORT ]</button>
                 </div>
 
                 <!-- Report Area -->
@@ -206,6 +203,8 @@
     <script src="../js/scripts.js"></script>
     <script>
         // Drag and Drop Logic
+        let cardCounter = 0; // Ensure unique IDs for cloned cards
+
         function allowDrop(ev) {
             ev.preventDefault();
             ev.currentTarget.classList.add('drag-over');
@@ -213,19 +212,70 @@
 
         function drag(ev) {
             ev.dataTransfer.setData("text", ev.target.id);
+            ev.dataTransfer.setData("prompt", ev.target.getAttribute('data-prompt'));
         }
 
         function drop(ev) {
             ev.preventDefault();
             ev.currentTarget.classList.remove('drag-over');
-            var data = ev.dataTransfer.getData("text");
-            var draggedElement = document.getElementById(data);
 
-            // Only allow dropping into phases or toolbox, not inside other cards
-            if (ev.target.classList.contains('kill-chain-phase') || ev.target.classList.contains('toolbox-area')) {
-                ev.target.appendChild(draggedElement);
-            } else if (ev.target.parentNode.classList.contains('kill-chain-phase')) {
-                ev.target.parentNode.appendChild(draggedElement);
+            // Identify drop target phase
+            let phase = ev.target;
+            while (phase && !phase.classList.contains('kill-chain-phase') && !phase.classList.contains('toolbox-area')) {
+                phase = phase.parentNode;
+            }
+
+            if (!phase) return;
+
+            // Logic: Is this a "Move" or a "New Copy"?
+            // If dropping back to toolbox -> Delete logic or just ignore if it's the original.
+            // Requirement said "drag the url", implying moving or copying. 
+            // Better UX for a "Notebook": Dragging from Toolbox CREATES a new entry. Dragging between phases MOVES it.
+
+            var data = ev.dataTransfer.getData("text");
+            var originalElement = document.getElementById(data);
+
+            if (phase.classList.contains('toolbox-area')) {
+                // If dropping into toolbox, delete if it's a clone (notebook entry)
+                if (originalElement && originalElement.hasAttribute('data-cloned')) {
+                    originalElement.remove();
+                }
+                return;
+            }
+
+            // If we are dropping into a Phase
+            let targetCard;
+
+            if (originalElement && !originalElement.hasAttribute('data-cloned')) {
+                // It's a fresh drag from the toolbox. CLONE IT.
+                targetCard = originalElement.cloneNode(true);
+                cardCounter++;
+                targetCard.id = "note_" + cardCounter;
+                targetCard.setAttribute('data-cloned', 'true');
+
+                // Prompt for input
+                let promptText = originalElement.getAttribute('data-prompt') || "Enter details:";
+                let userInput = prompt(promptText);
+
+                if (userInput === null) return; // Cancelled
+
+                // Append details
+                targetCard.innerHTML += `<div style="color: #00ff41; font-size: 0.85rem; margin-top: 5px; border-top: 1px solid #444; padding-top: 4px; overflow-wrap: break-word;" contenteditable="true">${userInput}</div>`;
+
+                // Add a delete button
+                let delBtn = document.createElement('span');
+                delBtn.innerHTML = " &times;";
+                delBtn.style.color = 'red';
+                delBtn.style.cursor = 'pointer';
+                delBtn.style.float = 'right';
+                delBtn.onclick = function () { this.parentNode.remove(); };
+                targetCard.prepend(delBtn);
+
+                phase.appendChild(targetCard);
+
+            } else if (originalElement) {
+                // It's already a note, just moving it to another phase
+                phase.appendChild(originalElement);
             }
         }
 
@@ -236,41 +286,40 @@
             });
         });
 
-        function resetBoard() {
-            const toolbox = document.getElementById('toolbox');
-            const cards = document.querySelectorAll('.tactic-card');
-            cards.forEach(card => toolbox.appendChild(card));
-            document.getElementById('report').style.display = 'none';
-        }
-
         function generateReport() {
             const phases = [
-                'recon', 'weaponization', 'delivery', 'exploitation',
-                'installation', 'c2', 'actions'
+                'phase1_scope', 'phase2_enum', 'phase3_vuln', 'phase4_exploit',
+                'phase5_post'
             ];
 
-            let reportText = ">>> CAMPAIGN STRATEGY REPORT <<<\n";
+            let reportText = ">>> PENTEST ENGAGEMENT LOG <<<\n";
             reportText += "DATE: " + new Date().toLocaleString() + "\n";
-            reportText += "STATUS: CLASSIFIED\n----------------------------------\n\n";
+            reportText += "OPERATIVE: DMICHOS\n";
+            reportText += "STATUS: CONFIDENTIAL\n----------------------------------\n\n";
 
             phases.forEach((phaseId, index) => {
                 const phaseEl = document.getElementById(phaseId);
                 const cards = phaseEl.querySelectorAll('.tactic-card');
                 const phaseName = phaseEl.querySelector('.phase-header').innerText;
 
-                reportText += `[PHASE ${index + 1}: ${phaseName}]\n`;
-                if (cards.length === 0) {
-                    reportText += "  - No tactics assigned.\n";
-                } else {
+                if (cards.length > 0) {
+                    reportText += `[PHASE ${index + 1}: ${phaseName}]\n`;
                     cards.forEach(card => {
-                        reportText += `  > ${card.innerText}\n`;
+                        // Extract Title and Content
+                        // Clone structure: [X] [Text] [Div details]
+                        // Simple parse:
+                        let cleanTitle = card.innerText.split("\n")[0].replace("×", "").trim();
+                        let details = card.querySelector('div') ? card.querySelector('div').innerText : "(No details)";
+
+                        reportText += `  > ${cleanTitle}\n`;
+                        reportText += `    NOTE: ${details}\n`;
                     });
+                    reportText += "\n";
                 }
-                reportText += "\n";
             });
 
             reportText += "----------------------------------\n";
-            reportText += "[END OF REPORT]";
+            reportText += "[END OF LOG]";
 
             const reportDiv = document.getElementById('report');
             reportDiv.innerText = reportText;
@@ -278,6 +327,7 @@
             reportDiv.scrollIntoView({ behavior: 'smooth' });
         }
     </script>
+
 </body>
 
 </html>
