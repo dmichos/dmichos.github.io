@@ -28,6 +28,46 @@ if (typeof particlesJS !== 'undefined') {
     particlesJS('particles-js', particlesConfig);
 }
 
+
+// Guardian CTF (Sector 7)
+window.Sector7 = {
+    scan: function () {
+        console.clear();
+        console.log("%c[SCAN] INITIATING SECTOR 7 DEEP SCAN...", "color: #00ff41; font-weight: bold;");
+        setTimeout(() => {
+            console.log("%c[!] ANOMALY CONFIRMED.", "color: #ff5f56;");
+            console.log("%c[!] LOCKDOWN ACTIVE. Two security keys required for override.", "color: #00e5ff;");
+            console.log("%c[HINT 1] Key Fragment Alpha is embedded in the neural header (Meta Tag: 'x-grid-key').", "color: #888;");
+            console.log("%c[HINT 2] Key Fragment Beta is etched into the structural blueprint (CSS Comment: 'x-grid-lock').", "color: #888;");
+            console.log("%c[CMD] Execute: Sector7.override(KeyAlpha + KeyBeta)", "color: #ffff00;");
+        }, 1000);
+        return "Scanning...";
+    },
+    override: function (passphrase) {
+        // Expected: NeonGenesis
+        if (passphrase === "NeonGenesis") {
+            console.clear();
+            console.log(`%c
+   _____ ______________  ____  ___   __________  _________ 
+  / ___// ____/ ____/ / / / / / / | / /  _/   |/_  __/   |
+  \\__ \\/ __/ / /   / / / / /_/ /  |/ // // /| | / / / /| |
+ ___/ / /___/ /___/ /_/ / __  / /|  // // ___ |/ / / ___ |
+/____/_____/\\____/\\____/_/ /_/_/ |_/___/_/  |_/_/ /_/  |_|
+                                                          
+[+] ACCESS GRANTED. WELCOME, OPERATIVE.
+[+] REWARD UNLOCKED:
+    Email: dmicho@proton.me
+    Subject: SECTOR7_OPERATIVE
+    (Send this to claim your priority status).
+`, "color: #00ff41; font-weight: bold;");
+            return "Override Successful.";
+        } else {
+            console.log("%c[!] ACCESS DENIED. INVALID PASSPHRASE.", "color: #ff5f56; font-weight: bold;");
+            return "Override Failed.";
+        }
+    }
+};
+
 // IP Fetcher
 async function fetchIp() {
     try {
@@ -121,49 +161,11 @@ async function runIntro() {
 
 window.onload = runIntro;
 
-// Guardian CTF (Sector 7)
-window.Sector7 = {
-    scan: function () {
-        console.clear();
-        console.log("%c[SCAN] INITIATING SECTOR 7 DEEP SCAN...", "color: #00ff41; font-weight: bold;");
-        setTimeout(() => {
-            console.log("%c[!] ANOMALY CONFIRMED.", "color: #ff5f56;");
-            console.log("%c[!] LOCKDOWN ACTIVE. Two security keys required for override.", "color: #00e5ff;");
-            console.log("%c[HINT 1] Key Fragment Alpha is embedded in the neural header (Meta Tag: 'x-grid-key').", "color: #888;");
-            console.log("%c[HINT 2] Key Fragment Beta is etched into the structural blueprint (CSS Comment: 'x-grid-lock').", "color: #888;");
-            console.log("%c[CMD] Execute: Sector7.override(KeyAlpha + KeyBeta)", "color: #ffff00;");
-        }, 1000);
-        return "Scanning...";
-    },
-    override: function (passphrase) {
-        // Expected: NeonGenesis
-        if (passphrase === "NeonGenesis") {
-            console.clear();
-            console.log(`%c
-   _____ ______________  ____  ___   __________  _________ 
-  / ___// ____/ ____/ / / / / / / | / /  _/   |/_  __/   |
-  \\__ \\/ __/ / /   / / / / /_/ /  |/ // // /| | / / / /| |
- ___/ / /___/ /___/ /_/ / __  / /|  // // ___ |/ / / ___ |
-/____/_____/\\____/\\____/_/ /_/_/ |_/___/_/  |_/_/ /_/  |_|
-                                                          
-[+] ACCESS GRANTED. WELCOME, OPERATIVE.
-[+] REWARD UNLOCKED:
-    Email: dmicho@proton.me
-    Subject: SECTOR7_OPERATIVE
-    (Send this to claim your priority status).
-`, "color: #00ff41; font-weight: bold;");
-            return "Override Successful.";
-        } else {
-            console.log("%c[!] ACCESS DENIED. INVALID PASSPHRASE.", "color: #ff5f56; font-weight: bold;");
-            return "Override Failed.";
-        }
-    }
-};
-
 // Initial Hook
 setTimeout(() => {
     console.log("%c[SYSTEM] ⚠️ ANOMALY DETECTED: Unauthorized Signal in Sector 7.", "color: #ff5f56; background: #220000; padding: 4px;");
     console.log("%c[SYSTEM] Hint: Type 'Sector7.scan()' to analyze.", "color: #00ff41; background: #002200; padding: 4px;");
+    console.log("%c[DEBUG] Scripts.js loaded successfully.", "color: #00ff41;");
 }, 3000);
 
 
