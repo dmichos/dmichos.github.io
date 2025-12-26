@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kill Chain Canvas | Cyber Strategy</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+    <style>
+        /* Tool-Specific Styles */
+        .canvas-container {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 2rem;
+            overflow-x: auto;
+            min-height: 60vh;
+            padding-bottom: 2rem;
+        }
+
+        .kill-chain-phase {
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid var(--accent-primary);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            min-width: 180px;
+            transition: all 0.3s ease;
+        }
+
+        .phase-header {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--accent-secondary);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+
+        .tactic-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            cursor: grab;
+            font-size: 0.8rem;
+            color: #ccc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .tactic-card:active {
+            cursor: grabbing;
+        }
+
+        .tactic-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 0 8px rgba(0, 255, 65, 0.2);
+            color: #fff;
+        }
+
+        .toolbox-area {
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid #333;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            min-height: 100px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .toolbox-label {
+            width: 100%;
+            margin-bottom: 10px;
+            color: var(--accent-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Drag Over Effect */
+        .kill-chain-phase.drag-over {
+            background: rgba(0, 255, 65, 0.1);
+            border-color: #fff;
+        }
+
+        /* Report Modal */
+        .report-output {
+            background: #111;
+            color: #00ff41;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--accent-primary);
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            display: none;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <div id="particles-js"></div>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="../index.html">/home</a></li>
+                <li><a href="../about.html">/profile</a></li>
+                <li><a href="../projects.html">/toolshed</a></li>
+                <li><a href="../academy.html">/academy</a></li>
+                <li><a href="../contact.html">/connect</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main style="max-width: 1600px; width: 95%;">
+        <div class="terminal-window" style="min-height: 85vh;">
+            <div class="terminal-header">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+                <span style="font-size: 0.7rem; color: #555; margin-left: 10px;">./kill_chain_planner.exe</span>
+            </div>
+
+            <div class="terminal-body">
+                <h1 style="color: var(--accent-primary); margin-bottom: 0.5rem;">> KILL CHAIN STRATEGY CANVAS</h1>
+                <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 2rem;">
+                    [INFO] Map adversary tactics across the 7 phases of the Cyber Kill Chain. Build your campaign
+                    strategy.
+                </p>
+
+                <!-- Toolkit -->
+                <div class="toolbox-area" id="toolbox" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <div class="toolbox-label">> TACTICAL ASSETS (Drag to Phases)</div>
+                    <!-- Draggable Items -->
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card1">🔍 OSINT Scan</div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card2">📧 Phishing Email
+                    </div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card3">☣️ Weaponized PDF
+                    </div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card4">🐛 Zero-Day Exploit
+                    </div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card5">📥 Reverse Shell
+                    </div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card6">🔄 Persistence
+                        (RegKey)</div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card7">📡 C2 Beacon</div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card8">💾 Data Exfiltration
+                    </div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card9">🔐 Ransomware Payload
+                    </div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card10">🛠️ Mimikatz (Creds)
+                    </div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card11">🌐 SQL Injection
+                    </div>
+                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card12">🔑 Brute Force</div>
+                </div>
+
+                <!-- Main Canvas -->
+                <div class="canvas-container">
+                    <div class="kill-chain-phase" id="recon" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="phase-header">1. Reconnaissance</div>
+                    </div>
+                    <div class="kill-chain-phase" id="weaponization" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="phase-header">2. Weaponization</div>
+                    </div>
+                    <div class="kill-chain-phase" id="delivery" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="phase-header">3. Delivery</div>
+                    </div>
+                    <div class="kill-chain-phase" id="exploitation" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="phase-header">4. Exploitation</div>
+                    </div>
+                    <div class="kill-chain-phase" id="installation" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="phase-header">5. Installation</div>
+                    </div>
+                    <div class="kill-chain-phase" id="c2" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="phase-header">6. Cmd & Control</div>
+                    </div>
+                    <div class="kill-chain-phase" id="actions" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="phase-header">7. Actions</div>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div style="margin-top: 20px; text-align: right;">
+                    <button class="nav-button" onclick="resetBoard()">[ RESET BOARD ]</button>
+                    <button class="nav-button" onclick="generateReport()"
+                        style="border-color: #00ff41; color: #00ff41;">[ GENERATE CAMPAIGN REPORT ]</button>
+                </div>
+
+                <!-- Report Area -->
+                <div id="report" class="report-output"></div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/scripts.js"></script>
+    <script>
+        // Drag and Drop Logic
+        function allowDrop(ev) {
+            ev.preventDefault();
+            ev.currentTarget.classList.add('drag-over');
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            ev.currentTarget.classList.remove('drag-over');
+            var data = ev.dataTransfer.getData("text");
+            var draggedElement = document.getElementById(data);
+
+            // Only allow dropping into phases or toolbox, not inside other cards
+            if (ev.target.classList.contains('kill-chain-phase') || ev.target.classList.contains('toolbox-area')) {
+                ev.target.appendChild(draggedElement);
+            } else if (ev.target.parentNode.classList.contains('kill-chain-phase')) {
+                ev.target.parentNode.appendChild(draggedElement);
+            }
+        }
+
+        // Remove drag-over styling when leaving
+        document.querySelectorAll('.kill-chain-phase, .toolbox-area').forEach(el => {
+            el.addEventListener('dragleave', (e) => {
+                e.currentTarget.classList.remove('drag-over');
+            });
+        });
+
+        function resetBoard() {
+            const toolbox = document.getElementById('toolbox');
+            const cards = document.querySelectorAll('.tactic-card');
+            cards.forEach(card => toolbox.appendChild(card));
+            document.getElementById('report').style.display = 'none';
+        }
+
+        function generateReport() {
+            const phases = [
+                'recon', 'weaponization', 'delivery', 'exploitation',
+                'installation', 'c2', 'actions'
+            ];
+
+            let reportText = ">>> CAMPAIGN STRATEGY REPORT <<<\n";
+            reportText += "DATE: " + new Date().toLocaleString() + "\n";
+            reportText += "STATUS: CLASSIFIED\n----------------------------------\n\n";
+
+            phases.forEach((phaseId, index) => {
+                const phaseEl = document.getElementById(phaseId);
+                const cards = phaseEl.querySelectorAll('.tactic-card');
+                const phaseName = phaseEl.querySelector('.phase-header').innerText;
+
+                reportText += `[PHASE ${index + 1}: ${phaseName}]\n`;
+                if (cards.length === 0) {
+                    reportText += "  - No tactics assigned.\n";
+                } else {
+                    cards.forEach(card => {
+                        reportText += `  > ${card.innerText}\n`;
+                    });
+                }
+                reportText += "\n";
+            });
+
+            reportText += "----------------------------------\n";
+            reportText += "[END OF REPORT]";
+
+            const reportDiv = document.getElementById('report');
+            reportDiv.innerText = reportText;
+            reportDiv.style.display = 'block';
+            reportDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+
+</html>
