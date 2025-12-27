@@ -4,105 +4,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pentest Notebook | Methodology Guide</title>
+    <title>Pentester Report | Professional Engagement Documentation</title>
     <link rel="stylesheet" href="../css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
     <style>
-        /* Tool-Specific Styles */
-        .canvas-container {
+        .report-container {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
             margin-top: 2rem;
-            overflow-x: auto;
-            min-height: 60vh;
-            padding-bottom: 2rem;
         }
 
-        .kill-chain-phase {
-            background: rgba(10, 10, 10, 0.8);
+        .form-section {
+            background: rgba(10, 10, 10, 0.9);
             border: 1px solid var(--accent-primary);
             border-radius: 8px;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            min-width: 220px;
-            transition: all 0.3s ease;
-        }
-
-        .phase-header {
-            text-align: center;
-            font-size: 0.95rem;
-            color: var(--accent-secondary);
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            font-weight: bold;
-            border-bottom: 1px solid #333;
-            padding-bottom: 8px;
-            letter-spacing: 1px;
-        }
-
-        .tactic-card {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            padding: 10px;
-            margin-bottom: 8px;
-            border-radius: 4px;
-            cursor: grab;
-            font-size: 0.8rem;
-            color: #ccc;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .tactic-card:active {
-            cursor: grabbing;
-        }
-
-        .tactic-card:hover {
-            border-color: var(--accent-primary);
-            transform: translateY(-2px);
-            box-shadow: 0 0 8px rgba(0, 255, 65, 0.2);
-            color: #fff;
-        }
-
-        .toolbox-area {
-            background: rgba(20, 20, 20, 0.9);
-            border: 1px solid #333;
             padding: 20px;
+            max-height: 75vh;
+            overflow-y: auto;
+        }
+
+        .preview-section {
+            background: rgba(10, 10, 10, 0.9);
+            border: 1px solid var(--accent-secondary);
             border-radius: 8px;
-            margin-bottom: 2rem;
-            min-height: 100px;
+            padding: 20px;
+            max-height: 75vh;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .section-header {
+            color: var(--accent-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #333;
+            cursor: pointer;
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+            justify-content: space-between;
             align-items: center;
         }
 
-        .toolbox-label {
-            width: 100%;
-            margin-bottom: 10px;
-            color: var(--accent-secondary);
-            font-size: 0.9rem;
+        .section-header:hover {
+            color: var(--accent-primary);
         }
 
-        /* Drag Over Effect */
-        .kill-chain-phase.drag-over {
-            background: rgba(0, 255, 65, 0.1);
-            border-color: #fff;
+        .section-content {
+            margin-bottom: 25px;
         }
 
-        /* Report Modal */
-        .report-output {
-            background: #111;
-            color: #00ff41;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid var(--accent-primary);
-            font-family: 'Courier New', monospace;
-            white-space: pre-wrap;
+        .section-content.collapsed {
             display: none;
-            margin-top: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--accent-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 10px;
+            color: #ccc;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 5px rgba(0, 255, 65, 0.3);
+        }
+
+        .vuln-table {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .vuln-table input {
+            margin-bottom: 5px;
+        }
+
+        .add-finding-btn {
+            background: transparent;
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-primary);
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .add-finding-btn:hover {
+            background: var(--accent-primary);
+            color: #000;
+        }
+
+        .severity-critical {
+            color: #ff4444;
+            font-weight: bold;
+        }
+
+        .severity-high {
+            color: #ff8844;
+            font-weight: bold;
+        }
+
+        .severity-medium {
+            color: #ffbb44;
+        }
+
+        .severity-low {
+            color: #88ff88;
+        }
+
+        .export-controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .collapse-icon {
+            font-size: 0.8rem;
         }
     </style>
 </head>
@@ -123,211 +184,396 @@
     </header>
 
     <main style="max-width: 1600px; width: 95%;">
-        <div class="terminal-window" style="min-height: 85vh;">
+        <div class="terminal-window" style="min-height: 90vh;">
             <div class="terminal-header">
                 <div class="dot red"></div>
                 <div class="dot yellow"></div>
                 <div class="dot green"></div>
-                <span style="font-size: 0.7rem; color: #555; margin-left: 10px;">./pentest_log.sh</span>
+                <span style="font-size: 0.7rem; color: #555; margin-left: 10px;">./pentest_report_generator.sh</span>
             </div>
 
             <div class="terminal-body">
-                <h1 style="color: var(--accent-primary); margin-bottom: 0.5rem;">> PENTEST NOTEBOOK</h1>
-                <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 2rem;">
-                    [INFO] Structured workflow methodology. Drag cards to phases to log findings and generate the final
-                    report.
+                <h1 style="color: var(--accent-primary); margin-bottom: 0.5rem;">> PENTESTER REPORT</h1>
+                <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 1rem;">
+                    [INFO] Professional engagement documentation. Track your methodology and generate comprehensive
+                    reports.
                 </p>
 
-                <!-- Toolkit -->
-                <div class="toolbox-area" id="toolbox" ondrop="drop(event)" ondragover="allowDrop(event)">
-                    <div class="toolbox-label">> METHODOLOGY TOOLKIT (Drag to Log Finding)</div>
-                    <!-- Draggable Items -->
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_scope"
-                        data-prompt="Enter Target URL/IP Scope:">🎯 Target Scope</div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_recon"
-                        data-prompt="Passive Recon Findings (Whois/ASN):">🔍 Passive Recon</div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_dns"
-                        data-prompt="Subdomains Found:">🌐 Subdomain Enum</div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_nmap"
-                        data-prompt="Open Ports & Services:">📡 Nmap Service Scan</div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_dir"
-                        data-prompt="Paste Fuzzing Results (Gobuster/Dirb):">📂 Web Directory Fuzz</div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_vuln"
-                        data-prompt="Describe Vulnerability/CVE:">🐛 CVE / Misconfig</div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_expl"
-                        data-prompt="Exploit Used/Payload:">💥 Exploit Attempt</div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_shell"
-                        data-prompt="Shell Type & Access Level:">🐚 Reverse Shell / Access</div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_priv"
-                        data-prompt="PrivEsc Vector (LinPEAS/WinPEAS):">⬆️ Privilege Escalation</div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_loot"
-                        data-prompt="Loot Found (Hashes/Keys):">� Loot / Credentials</div>
-                    <div class="tactic-card" draggable="true" ondragstart="drag(event)" id="card_note"
-                        data-prompt="Field Note:">📝 Custom Note</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar"></div>
                 </div>
 
-                <!-- Main Canvas -->
-                <div class="canvas-container">
-                    <div class="kill-chain-phase" id="phase1_scope" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        <div class="phase-header">1. Scope & Recon</div>
+                <div class="report-container">
+                    <!-- LEFT: INPUT FORM -->
+                    <div class="form-section">
+                        <!-- Engagement Info -->
+                        <div class="section-header" onclick="toggleSection('engagement')">
+                            <span>📋 ENGAGEMENT INFORMATION</span>
+                            <span class="collapse-icon" id="icon-engagement">▼</span>
+                        </div>
+                        <div class="section-content" id="engagement">
+                            <div class="form-group">
+                                <label>Target Organization:</label>
+                                <input type="text" id="orgName" placeholder="e.g., Example Corp"
+                                    oninput="updatePreview()">
+                            </div>
+                            <div class="form-group">
+                                <label>Scope (IPs/URLs):</label>
+                                <textarea id="scope" placeholder="10.10.10.0/24, https://example.com"
+                                    oninput="updatePreview()"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Testing Period:</label>
+                                <input type="text" id="testingPeriod" placeholder="e.g., 2024-01-15 to 2024-01-20"
+                                    oninput="updatePreview()">
+                            </div>
+                            <div class="form-group">
+                                <label>Penetration Tester:</label>
+                                <input type="text" id="testerName" value="DMICHOS" oninput="updatePreview()">
+                            </div>
+                        </div>
+
+                        <!-- Reconnaissance -->
+                        <div class="section-header" onclick="toggleSection('recon')">
+                            <span>🔍 RECONNAISSANCE</span>
+                            <span class="collapse-icon" id="icon-recon">▼</span>
+                        </div>
+                        <div class="section-content" id="recon">
+                            <div class="form-group">
+                                <label>Passive Information Gathering:</label>
+                                <textarea id="passiveRecon" placeholder="Whois, ASN, public records..."
+                                    oninput="updatePreview()"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>DNS Enumeration:</label>
+                                <textarea id="dnsEnum" placeholder="Subdomains discovered..."
+                                    oninput="updatePreview()"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Scanning -->
+                        <div class="section-header" onclick="toggleSection('scanning')">
+                            <span>📡 SCANNING & ENUMERATION</span>
+                            <span class="collapse-icon" id="icon-scanning">▼</span>
+                        </div>
+                        <div class="section-content" id="scanning">
+                            <div class="form-group">
+                                <label>Port Scan Results:</label>
+                                <textarea id="portScan" placeholder="Paste Nmap output..."
+                                    oninput="updatePreview()"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Service Identification:</label>
+                                <textarea id="services" placeholder="Running services and versions..."
+                                    oninput="updatePreview()"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Web Directory Fuzzing:</label>
+                                <textarea id="dirFuzz" placeholder="Gobuster/Dirb findings..."
+                                    oninput="updatePreview()"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Vulnerabilities -->
+                        <div class="section-header" onclick="toggleSection('vulns')">
+                            <span>🐛 VULNERABILITY ASSESSMENT</span>
+                            <span class="collapse-icon" id="icon-vulns">▼</span>
+                        </div>
+                        <div class="section-content" id="vulns">
+                            <div id="vulnList"></div>
+                            <button class="add-finding-btn" onclick="addVulnerability()">+ Add Vulnerability</button>
+                        </div>
+
+                        <!-- Exploitation -->
+                        <div class="section-header" onclick="toggleSection('exploit')">
+                            <span>💥 EXPLOITATION</span>
+                            <span class="collapse-icon" id="icon-exploit">▼</span>
+                        </div>
+                        <div class="section-content" id="exploit">
+                            <div class="form-group">
+                                <label>Exploit Method:</label>
+                                <textarea id="exploitMethod" placeholder="Techniques used..."
+                                    oninput="updatePreview()"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Initial Access:</label>
+                                <textarea id="initialAccess" placeholder="User account, shell type..."
+                                    oninput="updatePreview()"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Credentials Obtained:</label>
+                                <textarea id="credentials" placeholder="Usernames, hashes..."
+                                    oninput="updatePreview()"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Post-Exploitation -->
+                        <div class="section-header" onclick="toggleSection('post')">
+                            <span>⬆️ POST-EXPLOITATION</span>
+                            <span class="collapse-icon" id="icon-post">▼</span>
+                        </div>
+                        <div class="section-content" id="post">
+                            <div class="form-group">
+                                <label>Privilege Escalation:</label>
+                                <textarea id="privesc" placeholder="Vector used (kernel exploit, misconfig, etc.)..."
+                                    oninput="updatePreview()"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Lateral Movement:</label>
+                                <textarea id="lateral" placeholder="Other systems accessed..."
+                                    oninput="updatePreview()"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Data Exfiltration / Loot:</label>
+                                <textarea id="loot" placeholder="Sensitive data obtained..."
+                                    oninput="updatePreview()"></textarea>
+                            </div>
+                        </div>
                     </div>
-                    <div class="kill-chain-phase" id="phase2_enum" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        <div class="phase-header">2. Enumeration</div>
-                    </div>
-                    <div class="kill-chain-phase" id="phase3_vuln" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        <div class="phase-header">3. Vuln Analysis</div>
-                    </div>
-                    <div class="kill-chain-phase" id="phase4_exploit" ondrop="drop(event)"
-                        ondragover="allowDrop(event)">
-                        <div class="phase-header">4. Exploitation</div>
-                    </div>
-                    <div class="kill-chain-phase" id="phase5_post" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        <div class="phase-header">5. Post-Exploitation</div>
+
+                    <!-- RIGHT: LIVE PREVIEW -->
+                    <div class="preview-section" id="reportPreview">
+                        <div style="color: var(--accent-primary); margin-bottom: 20px;">
+                            === PENETRATION TEST REPORT ===
+                        </div>
+                        <div style="color: #888;">
+                            Start filling out the form to see your report preview...
+                        </div>
                     </div>
                 </div>
 
-                <!-- Controls -->
-                <div style="margin-top: 20px; text-align: right;">
-                    <button class="nav-button" onclick="location.reload()">[ RESET LOG ]</button>
-                    <button class="nav-button" onclick="generateReport()"
-                        style="border-color: #00ff41; color: #00ff41;">[ GENERATE ENGAGEMENT REPORT ]</button>
+                <!-- Export Controls -->
+                <div class="export-controls">
+                    <button class="nav-button" onclick="exportMarkdown()">[ EXPORT MARKDOWN ]</button>
+                    <button class="nav-button" onclick="exportJSON()">[ SAVE SESSION ]</button>
+                    <button class="nav-button" onclick="copyReport()" style="border-color: #00ff41; color: #00ff41;">[
+                        COPY TO CLIPBOARD ]</button>
                 </div>
-
-                <!-- Report Area -->
-                <div id="report" class="report-output"></div>
-
             </div>
         </div>
     </main>
 
     <script src="../js/scripts.js"></script>
     <script>
-        // Drag and Drop Logic
-        let cardCounter = 0; // Ensure unique IDs for cloned cards
+        let vulnerabilities = [];
 
-        function allowDrop(ev) {
-            ev.preventDefault();
-            ev.currentTarget.classList.add('drag-over');
-        }
+        function toggleSection(sectionId) {
+            const content = document.getElementById(sectionId);
+            const icon = document.getElementById(`icon-${sectionId}`);
 
-        function drag(ev) {
-            ev.dataTransfer.setData("text", ev.target.id);
-            ev.dataTransfer.setData("prompt", ev.target.getAttribute('data-prompt'));
-        }
-
-        function drop(ev) {
-            ev.preventDefault();
-            ev.currentTarget.classList.remove('drag-over');
-
-            // Identify drop target phase
-            let phase = ev.target;
-            while (phase && !phase.classList.contains('kill-chain-phase') && !phase.classList.contains('toolbox-area')) {
-                phase = phase.parentNode;
-            }
-
-            if (!phase) return;
-
-            // Logic: Is this a "Move" or a "New Copy"?
-            // If dropping back to toolbox -> Delete logic or just ignore if it's the original.
-            // Requirement said "drag the url", implying moving or copying. 
-            // Better UX for a "Notebook": Dragging from Toolbox CREATES a new entry. Dragging between phases MOVES it.
-
-            var data = ev.dataTransfer.getData("text");
-            var originalElement = document.getElementById(data);
-
-            if (phase.classList.contains('toolbox-area')) {
-                // If dropping into toolbox, delete if it's a clone (notebook entry)
-                if (originalElement && originalElement.hasAttribute('data-cloned')) {
-                    originalElement.remove();
-                }
-                return;
-            }
-
-            // If we are dropping into a Phase
-            let targetCard;
-
-            if (originalElement && !originalElement.hasAttribute('data-cloned')) {
-                // It's a fresh drag from the toolbox. CLONE IT.
-                targetCard = originalElement.cloneNode(true);
-                cardCounter++;
-                targetCard.id = "note_" + cardCounter;
-                targetCard.setAttribute('data-cloned', 'true');
-
-                // Prompt for input
-                let promptText = originalElement.getAttribute('data-prompt') || "Enter details:";
-                let userInput = prompt(promptText);
-
-                if (userInput === null) return; // Cancelled
-
-                // Append details
-                targetCard.innerHTML += `<div style="color: #00ff41; font-size: 0.85rem; margin-top: 5px; border-top: 1px solid #444; padding-top: 4px; overflow-wrap: break-word;" contenteditable="true">${userInput}</div>`;
-
-                // Add a delete button
-                let delBtn = document.createElement('span');
-                delBtn.innerHTML = " &times;";
-                delBtn.style.color = 'red';
-                delBtn.style.cursor = 'pointer';
-                delBtn.style.float = 'right';
-                delBtn.onclick = function () { this.parentNode.remove(); };
-                targetCard.prepend(delBtn);
-
-                phase.appendChild(targetCard);
-
-            } else if (originalElement) {
-                // It's already a note, just moving it to another phase
-                phase.appendChild(originalElement);
+            if (content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                icon.textContent = '▼';
+            } else {
+                content.classList.add('collapsed');
+                icon.textContent = '▶';
             }
         }
 
-        // Remove drag-over styling when leaving
-        document.querySelectorAll('.kill-chain-phase, .toolbox-area').forEach(el => {
-            el.addEventListener('dragleave', (e) => {
-                e.currentTarget.classList.remove('drag-over');
+        function addVulnerability() {
+            const id = Date.now();
+            vulnerabilities.push({ id, name: '', severity: 'Medium', location: '', description: '' });
+            renderVulnerabilities();
+        }
+
+        function removeVulnerability(id) {
+            vulnerabilities = vulnerabilities.filter(v => v.id !== id);
+            renderVulnerabilities();
+            updatePreview();
+        }
+
+        function renderVulnerabilities() {
+            const container = document.getElementById('vulnList');
+            container.innerHTML = vulnerabilities.map(v => `
+                <div style="border: 1px solid #333; padding: 10px; margin-bottom: 10px; border-radius: 4px;">
+                    <div class="form-group">
+                        <label>Vulnerability Name:</label>
+                        <input type="text" value="${v.name}" oninput="updateVuln(${v.id}, 'name', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>Severity:</label>
+                        <select oninput="updateVuln(${v.id}, 'severity', this.value)">
+                            <option ${v.severity === 'Critical' ? 'selected' : ''}>Critical</option>
+                            <option ${v.severity === 'High' ? 'selected' : ''}>High</option>
+                            <option ${v.severity === 'Medium' ? 'selected' : ''}>Medium</option>
+                            <option ${v.severity === 'Low' ? 'selected' : ''}>Low</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Location/Affected Component:</label>
+                        <input type="text" value="${v.location}" oninput="updateVuln(${v.id}, 'location', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>Description:</label>
+                        <textarea oninput="updateVuln(${v.id}, 'description', this.value)">${v.description}</textarea>
+                    </div>
+                    <button class="add-finding-btn" style="border-color: #ff4444; color: #ff4444;" onclick="removeVulnerability(${v.id})">Remove</button>
+                </div>
+            `).join('');
+            updatePreview();
+        }
+
+        function updateVuln(id, field, value) {
+            const vuln = vulnerabilities.find(v => v.id === id);
+            if (vuln) {
+                vuln[field] = value;
+                updatePreview();
+            }
+        }
+
+        function updatePreview() {
+            const org = document.getElementById('orgName').value || '[Organization Name]';
+            const scope = document.getElementById('scope').value || 'N/A';
+            const period = document.getElementById('testingPeriod').value || 'N/A';
+            const tester = document.getElementById('testerName').value || 'N/A';
+            const passiveRecon = document.getElementById('passiveRecon').value;
+            const dnsEnum = document.getElementById('dnsEnum').value;
+            const portScan = document.getElementById('portScan').value;
+            const services = document.getElementById('services').value;
+            const dirFuzz = document.getElementById('dirFuzz').value;
+            const exploitMethod = document.getElementById('exploitMethod').value;
+            const initialAccess = document.getElementById('initialAccess').value;
+            const credentials = document.getElementById('credentials').value;
+            const privesc = document.getElementById('privesc').value;
+            const lateral = document.getElementById('lateral').value;
+            const loot = document.getElementById('loot').value;
+
+            let report = `<div style="color: var(--accent-primary); font-weight: bold; margin-bottom: 20px;">
+=== PENETRATION TEST REPORT ===
+</div>
+
+<div style="color: var(--accent-secondary);">TARGET ORGANIZATION</div>
+${org}
+
+<div style="color: var(--accent-secondary); margin-top: 15px;">SCOPE</div>
+${scope.replace(/\n/g, '<br>')}
+
+<div style="color: var(--accent-secondary); margin-top: 15px;">TESTING PERIOD</div>
+${period}
+
+<div style="color: var(--accent-secondary); margin-top: 15px;">TESTER</div>
+${tester}
+
+<div style="color: var(--accent-primary); font-weight: bold; margin-top: 25px;">
+--- METHODOLOGY & FINDINGS ---
+</div>`;
+
+            // Reconnaissance
+            if (passiveRecon || dnsEnum) {
+                report += `\n<div style="color: var(--accent-secondary); margin-top: 20px;">🔍 RECONNAISSANCE</div>`;
+                if (passiveRecon) report += `\n<div style="margin-left: 15px; margin-top: 5px;">Passive Gathering:<br>${passiveRecon.replace(/\n/g, '<br>')}</div>`;
+                if (dnsEnum) report += `\n<div style="margin-left: 15px; margin-top: 5px;">DNS Enumeration:<br>${dnsEnum.replace(/\n/g, '<br>')}</div>`;
+            }
+
+            // Scanning
+            if (portScan || services || dirFuzz) {
+                report += `\n<div style="color: var(--accent-secondary); margin-top: 20px;">📡 SCANNING & ENUMERATION</div>`;
+                if (portScan) report += `\n<div style="margin-left: 15px; margin-top: 5px;">Port Scan:<br><pre style="background: #0a0a0a; padding: 10px; border-radius: 4px; overflow-x: auto;">${portScan}</pre></div>`;
+                if (services) report += `\n<div style="margin-left: 15px; margin-top: 5px;">Services:<br>${services.replace(/\n/g, '<br>')}</div>`;
+                if (dirFuzz) report += `\n<div style="margin-left: 15px; margin-top: 5px;">Directory Fuzzing:<br>${dirFuzz.replace(/\n/g, '<br>')}</div>`;
+            }
+
+            // Vulnerabilities
+            if (vulnerabilities.length > 0) {
+                report += `\n<div style="color: var(--accent-secondary); margin-top: 20px;">🐛 VULNERABILITIES IDENTIFIED</div>`;
+                vulnerabilities.forEach((v, idx) => {
+                    const severityClass = `severity-${v.severity.toLowerCase()}`;
+                    report += `\n<div style="margin-left: 15px; margin-top: 10px; padding: 10px; background: #0a0a0a; border-left: 3px solid var(--accent-primary);">
+                        <div><strong>${idx + 1}. ${v.name || 'Unnamed Vulnerability'}</strong></div>
+                        <div class="${severityClass}">Severity: ${v.severity}</div>
+                        <div style="color: #888;">Location: ${v.location || 'N/A'}</div>
+                        <div style="margin-top: 5px;">${v.description || 'No description provided.'}</div>
+                    </div>`;
+                });
+            }
+
+            // Exploitation
+            if (exploitMethod || initialAccess || credentials) {
+                report += `\n<div style="color: var(--accent-secondary); margin-top: 20px;">💥 EXPLOITATION</div>`;
+                if (exploitMethod) report += `\n<div style="margin-left: 15px; margin-top: 5px;">Method:<br>${exploitMethod.replace(/\n/g, '<br>')}</div>`;
+                if (initialAccess) report += `\n<div style="margin-left: 15px; margin-top: 5px;">Initial Access:<br>${initialAccess.replace(/\n/g, '<br>')}</div>`;
+                if (credentials) report += `\n<div style="margin-left: 15px; margin-top: 5px;">Credentials:<br>${credentials.replace(/\n/g, '<br>')}</div>`;
+            }
+
+            // Post-Exploitation
+            if (privesc || lateral || loot) {
+                report += `\n<div style="color: var(--accent-secondary); margin-top: 20px;">⬆️ POST-EXPLOITATION</div>`;
+                if (privesc) report += `\n<div style="margin-left: 15px; margin-top: 5px;">Privilege Escalation:<br>${privesc.replace(/\n/g, '<br>')}</div>`;
+                if (lateral) report += `\n<div style="margin-left: 15px; margin-top: 5px;">Lateral Movement:<br>${lateral.replace(/\n/g, '<br>')}</div>`;
+                if (loot) report += `\n<div style="margin-left: 15px; margin-top: 5px;">Loot/Data:<br>${loot.replace(/\n/g, '<br>')}</div>`;
+            }
+
+            report += `\n\n<div style="color: var(--accent-primary); margin-top: 30px; border-top: 1px solid #333; padding-top: 15px;">
+--- END OF REPORT ---<br>
+<span style="font-size: 0.8rem; color: #666;">Generated: ${new Date().toLocaleString()}</span>
+</div>`;
+
+            document.getElementById('reportPreview').innerHTML = report;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const totalFields = 15; // Approximate count of main fields
+            let filledFields = 0;
+
+            document.querySelectorAll('input, textarea, select').forEach(el => {
+                if (el.value && el.value.trim() !== '') filledFields++;
             });
-        });
 
-        function generateReport() {
-            const phases = [
-                'phase1_scope', 'phase2_enum', 'phase3_vuln', 'phase4_exploit',
-                'phase5_post'
-            ];
-
-            let reportText = ">>> PENTEST ENGAGEMENT LOG <<<\n";
-            reportText += "DATE: " + new Date().toLocaleString() + "\n";
-            reportText += "OPERATIVE: DMICHOS\n";
-            reportText += "STATUS: CONFIDENTIAL\n----------------------------------\n\n";
-
-            phases.forEach((phaseId, index) => {
-                const phaseEl = document.getElementById(phaseId);
-                const cards = phaseEl.querySelectorAll('.tactic-card');
-                const phaseName = phaseEl.querySelector('.phase-header').innerText;
-
-                if (cards.length > 0) {
-                    reportText += `[PHASE ${index + 1}: ${phaseName}]\n`;
-                    cards.forEach(card => {
-                        // Extract Title and Content
-                        // Clone structure: [X] [Text] [Div details]
-                        // Simple parse:
-                        let cleanTitle = card.innerText.split("\n")[0].replace("×", "").trim();
-                        let details = card.querySelector('div') ? card.querySelector('div').innerText : "(No details)";
-
-                        reportText += `  > ${cleanTitle}\n`;
-                        reportText += `    NOTE: ${details}\n`;
-                    });
-                    reportText += "\n";
-                }
-            });
-
-            reportText += "----------------------------------\n";
-            reportText += "[END OF LOG]";
-
-            const reportDiv = document.getElementById('report');
-            reportDiv.innerText = reportText;
-            reportDiv.style.display = 'block';
-            reportDiv.scrollIntoView({ behavior: 'smooth' });
+            const percentage = Math.min((filledFields / totalFields) * 100, 100);
+            document.getElementById('progressBar').style.width = percentage + '%';
         }
+
+        function exportMarkdown() {
+            const preview = document.getElementById('reportPreview').innerText;
+            const blob = new Blob([preview], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'pentest_report_' + Date.now() + '.md';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function exportJSON() {
+            const data = {
+                orgName: document.getElementById('orgName').value,
+                scope: document.getElementById('scope').value,
+                testingPeriod: document.getElementById('testingPeriod').value,
+                testerName: document.getElementById('testerName').value,
+                passiveRecon: document.getElementById('passiveRecon').value,
+                dnsEnum: document.getElementById('dnsEnum').value,
+                portScan: document.getElementById('portScan').value,
+                services: document.getElementById('services').value,
+                dirFuzz: document.getElementById('dirFuzz').value,
+                exploitMethod: document.getElementById('exploitMethod').value,
+                initialAccess: document.getElementById('initialAccess').value,
+                credentials: document.getElementById('credentials').value,
+                privesc: document.getElementById('privesc').value,
+                lateral: document.getElementById('lateral').value,
+                loot: document.getElementById('loot').value,
+                vulnerabilities: vulnerabilities
+            };
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'pentest_session_' + Date.now() + '.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function copyReport() {
+            const preview = document.getElementById('reportPreview').innerText;
+            navigator.clipboard.writeText(preview).then(() => {
+                alert('Report copied to clipboard!');
+            });
+        }
+
+        // Initialize
+        updatePreview();
     </script>
-
 </body>
 
 </html>
