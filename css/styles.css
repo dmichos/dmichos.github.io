@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&display=swap');
-
 :root {
     --bg-color: #050505;
     --accent-primary: #00ff41;
@@ -12,39 +11,31 @@
     --border-color: rgba(0, 255, 65, 0.2);
     --glow-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
 }
-
 /* Custom Scrollbar for Webkit (Chrome, Safari, newer Edge) */
 ::-webkit-scrollbar {
     width: 8px;
     /* Thickness of the scrollbar */
 }
-
 ::-webkit-scrollbar-track {
     background: #0d0d0d;
     /* Dark track to blend with background */
 }
-
 ::-webkit-scrollbar-thumb {
     background: #00ff41;
     /* Neon green thumb */
     border-radius: 4px;
     /* Rounded corners */
 }
-
 ::-webkit-scrollbar-thumb:hover {
     background: #00cc33;
     /* Slightly darker green on hover */
 }
-
 /* Firefox Scrollbar */
 * {
     scrollbar-width: thin;
     scrollbar-color: #00ff41 #0d0d0d;
 }
-
 /* x-grid-lock: R2VuZXNpcw== */
-
-
 body {
     font-family: 'JetBrains Mono', monospace;
     background-color: var(--bg-color);
@@ -54,7 +45,6 @@ body {
     overflow-x: hidden;
     line-height: 1.6;
 }
-
 #particles-js {
     position: fixed;
     top: 0;
@@ -64,7 +54,6 @@ body {
     z-index: 1;
     pointer-events: none;
 }
-
 /* Scanline Effect */
 body::before {
     content: " ";
@@ -79,7 +68,6 @@ body::before {
     background-size: 100% 2px, 3px 100%;
     pointer-events: none;
 }
-
 header {
     position: sticky;
     top: 0;
@@ -89,7 +77,6 @@ header {
     border-bottom: 1px solid var(--border-color);
     padding: 1rem 2rem;
 }
-
 nav ul {
     list-style: none;
     display: flex;
@@ -98,7 +85,6 @@ nav ul {
     margin: 0;
     padding: 0;
 }
-
 nav ul li a {
     color: var(--text-dim);
     text-decoration: none;
@@ -109,13 +95,11 @@ nav ul li a {
     transition: 0.3s;
     position: relative;
 }
-
 nav ul li a:hover,
 nav ul li a.active {
     color: var(--accent-primary);
     text-shadow: var(--glow-shadow);
 }
-
 nav ul li a::after {
     content: '';
     position: absolute;
@@ -126,11 +110,9 @@ nav ul li a::after {
     background: var(--accent-primary);
     transition: 0.3s;
 }
-
 nav ul li a:hover::after {
     width: 100%;
 }
-
 main {
     position: relative;
     z-index: 5;
@@ -138,7 +120,6 @@ main {
     margin: 4rem auto;
     padding: 0 2rem;
 }
-
 .terminal-window {
     background: rgba(0, 0, 0, 0.85);
     border: 1px solid var(--border-color);
@@ -148,7 +129,6 @@ main {
     position: relative;
     overflow: hidden;
 }
-
 .terminal-header {
     background: #1a1a1a;
     padding: 5px 15px;
@@ -157,25 +137,20 @@ main {
     gap: 8px;
     border-bottom: 1px solid #333;
 }
-
 .dot {
     width: 10px;
     height: 10px;
     border-radius: 50%;
 }
-
 .red {
     background: #ff5f56;
 }
-
 .yellow {
     background: #ffbd2e;
 }
-
 .green {
     background: #27c93f;
 }
-
 h1,
 h2,
 h3 {
@@ -183,7 +158,6 @@ h3 {
     text-transform: uppercase;
     letter-spacing: 3px;
 }
-
 .typewriter-text {
     font-size: 1.2rem;
     color: var(--accent-primary);
@@ -192,19 +166,16 @@ h3 {
     overflow: hidden;
     width: 0;
 }
-
 .glitch-text {
     position: relative;
     display: inline-block;
 }
-
 /* Animations */
 @keyframes blink {
     50% {
         opacity: 0;
     }
 }
-
 .cursor {
     display: inline-block;
     width: 10px;
@@ -213,7 +184,6 @@ h3 {
     animation: blink 1s step-end infinite;
     vertical-align: middle;
 }
-
 footer {
     position: fixed;
     bottom: 0;
@@ -226,7 +196,6 @@ footer {
     backdrop-filter: blur(5px);
     z-index: 100;
 }
-
 .ip-display {
     position: fixed;
     top: 80px;
@@ -239,18 +208,16 @@ footer {
     border-left: 3px solid var(--accent-secondary);
     z-index: 100;
 }
-
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
     margin-top: 1.5rem;
 }
-
 .project-card {
     background: var(--glass-bg);
     border: 1px solid var(--border-color);
-    padding: 1.5rem;
+    padding: 1.2rem;
     transition: 0.3s;
     display: flex;
     flex-direction: column;
@@ -258,7 +225,6 @@ footer {
     position: relative;
     overflow: hidden;
 }
-
 .project-card::before {
     content: '';
     position: absolute;
@@ -270,30 +236,25 @@ footer {
     transform: scaleY(0);
     transition: 0.3s;
 }
-
 .project-card:hover::before {
     transform: scaleY(1);
 }
-
 .project-card h3 {
     margin-top: 0;
     font-size: 1.1rem;
     color: var(--accent-primary);
 }
-
 .project-card p {
     font-size: 0.85rem;
     color: #bbb;
     flex-grow: 1;
 }
-
 .project-card:hover {
     border-color: var(--accent-secondary);
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
     background: rgba(10, 10, 10, 0.9);
 }
-
 .tag {
     font-size: 0.65rem;
     padding: 2px 8px;
@@ -302,7 +263,6 @@ footer {
     margin-right: 5px;
     border-radius: 3px;
 }
-
 /* Skill Matrix */
 .skill-matrix {
     display: flex;
@@ -310,11 +270,9 @@ footer {
     gap: 1.5rem;
     margin-top: 1.5rem;
 }
-
 .skill-item {
     width: 100%;
 }
-
 .skill-info {
     display: flex;
     justify-content: space-between;
@@ -323,7 +281,6 @@ footer {
     color: var(--text-primary);
     font-family: 'JetBrains Mono', monospace;
 }
-
 .skill-bar-bg {
     width: 100%;
     height: 8px;
@@ -333,7 +290,6 @@ footer {
     overflow: hidden;
     position: relative;
 }
-
 .skill-bar-fill {
     height: 100%;
     background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
