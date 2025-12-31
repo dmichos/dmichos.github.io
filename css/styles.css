@@ -116,7 +116,8 @@ nav ul li a:hover::after {
 main {
     position: relative;
     z-index: 5;
-    max-width: 1600px;
+    max-width: 1800px;
+    width: 95%;
     margin: 4rem auto;
     padding: 0 2rem;
 }
@@ -125,7 +126,7 @@ main {
     border: 1px solid var(--border-color);
     border-radius: 5px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), inset 0 0 100px rgba(0, 255, 65, 0.05);
-    padding: 2rem;
+    padding: 2.5rem;
     position: relative;
     overflow: hidden;
 }
@@ -210,9 +211,9 @@ footer {
 }
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 0.8rem;
-    margin-top: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+    margin-top: 2rem;
 }
 .project-card {
     background: rgba(15, 15, 15, 0.8);
@@ -248,6 +249,7 @@ footer {
 .project-card a {
     display: inline-block;
     align-self: flex-start;
+    margin-top: auto;
     padding: 6px 14px;
     background: transparent;
     border: 1px solid var(--accent-secondary);
@@ -265,13 +267,20 @@ footer {
     color: #fff;
     border-color: #fff;
 }
+.card-tags {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
 .tag {
     font-size: 0.65rem;
     padding: 2px 8px;
     border: 1px solid var(--accent-primary);
     color: var(--accent-primary);
-    margin-right: 5px;
     border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 /* Skill Matrix */
 .skill-matrix {
